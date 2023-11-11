@@ -9,13 +9,20 @@
 /* Begin PBXBuildFile section */
 		F47DFCE52AFE50D70073B538 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE42AFE50D70073B538 /* AppDelegate.swift */; };
 		F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE62AFE50D70073B538 /* SceneDelegate.swift */; };
-		F47DFCE92AFE50D70073B538 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE82AFE50D70073B538 /* ViewController.swift */; };
-		F47DFCEC2AFE50D70073B538 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F47DFCEA2AFE50D70073B538 /* Main.storyboard */; };
 		F47DFCEE2AFE50DA0073B538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F47DFCED2AFE50DA0073B538 /* Assets.xcassets */; };
 		F47DFCF12AFE50DA0073B538 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F47DFCEF2AFE50DA0073B538 /* LaunchScreen.storyboard */; };
 		F47DFCFC2AFE50DA0073B538 /* FinanceTrackerWithUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCFB2AFE50DA0073B538 /* FinanceTrackerWithUIKitTests.swift */; };
 		F47DFD062AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD052AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.swift */; };
 		F47DFD082AFE50DA0073B538 /* FinanceTrackerWithUIKitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD072AFE50DA0073B538 /* FinanceTrackerWithUIKitUITestsLaunchTests.swift */; };
+		F47DFD1A2AFE51890073B538 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD192AFE51890073B538 /* Transaction.swift */; };
+		F47DFD1D2AFE51CF0073B538 /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD1C2AFE51CF0073B538 /* TransactionsViewController.swift */; };
+		F4B09CCD2AFE817D004C1E07 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CCC2AFE817D004C1E07 /* DGCharts */; };
+		F4B09CCF2AFE817D004C1E07 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CCE2AFE817D004C1E07 /* DGChartsDynamic */; };
+		F4B09CD32AFEACA5004C1E07 /* TransactionRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B09CD22AFEACA5004C1E07 /* TransactionRealm.swift */; };
+		F4B09CD52AFEACDB004C1E07 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CD42AFEACDB004C1E07 /* Realm */; };
+		F4B09CD72AFEACDB004C1E07 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CD62AFEACDB004C1E07 /* RealmSwift */; };
+		F4B09CD92AFF9FE8004C1E07 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B09CD82AFF9FE7004C1E07 /* DataManager.swift */; };
+		F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +46,6 @@
 		F47DFCE12AFE50D70073B538 /* FinanceTrackerWithUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinanceTrackerWithUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DFCE42AFE50D70073B538 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F47DFCE62AFE50D70073B538 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F47DFCE82AFE50D70073B538 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F47DFCEB2AFE50D70073B538 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F47DFCED2AFE50DA0073B538 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F47DFCF02AFE50DA0073B538 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F47DFCF22AFE50DA0073B538 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +54,11 @@
 		F47DFD012AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinanceTrackerWithUIKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DFD052AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceTrackerWithUIKitUITests.swift; sourceTree = "<group>"; };
 		F47DFD072AFE50DA0073B538 /* FinanceTrackerWithUIKitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceTrackerWithUIKitUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F47DFD192AFE51890073B538 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		F47DFD1C2AFE51CF0073B538 /* TransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
+		F4B09CD22AFEACA5004C1E07 /* TransactionRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRealm.swift; sourceTree = "<group>"; };
+		F4B09CD82AFF9FE7004C1E07 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +66,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4B09CD72AFEACDB004C1E07 /* RealmSwift in Frameworks */,
+				F4B09CD52AFEACDB004C1E07 /* Realm in Frameworks */,
+				F4B09CCF2AFE817D004C1E07 /* DGChartsDynamic in Frameworks */,
+				F4B09CCD2AFE817D004C1E07 /* DGCharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +113,7 @@
 		F47DFCE32AFE50D70073B538 /* FinanceTrackerWithUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				F4B09CD02AFEAB8A004C1E07 /* Managers */,
 				F47DFD152AFE51090073B538 /* Models */,
 				F47DFD162AFE51140073B538 /* Views */,
 				F47DFD172AFE51240073B538 /* Controllers */,
@@ -138,6 +153,8 @@
 		F47DFD152AFE51090073B538 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F47DFD192AFE51890073B538 /* Transaction.swift */,
+				F4B09CD22AFEACA5004C1E07 /* TransactionRealm.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -145,7 +162,8 @@
 		F47DFD162AFE51140073B538 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F47DFCE82AFE50D70073B538 /* ViewController.swift */,
+				F47DFD1C2AFE51CF0073B538 /* TransactionsViewController.swift */,
+				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -153,7 +171,6 @@
 		F47DFD172AFE51240073B538 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F47DFCEA2AFE50D70073B538 /* Main.storyboard */,
 				F47DFCEF2AFE50DA0073B538 /* LaunchScreen.storyboard */,
 			);
 			path = Controllers;
@@ -165,6 +182,14 @@
 				F47DFCED2AFE50DA0073B538 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		F4B09CD02AFEAB8A004C1E07 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F4B09CD82AFF9FE7004C1E07 /* DataManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,6 +208,12 @@
 			dependencies = (
 			);
 			name = FinanceTrackerWithUIKit;
+			packageProductDependencies = (
+				F4B09CCC2AFE817D004C1E07 /* DGCharts */,
+				F4B09CCE2AFE817D004C1E07 /* DGChartsDynamic */,
+				F4B09CD42AFEACDB004C1E07 /* Realm */,
+				F4B09CD62AFEACDB004C1E07 /* RealmSwift */,
+			);
 			productName = FinanceTrackerWithUIKit;
 			productReference = F47DFCE12AFE50D70073B538 /* FinanceTrackerWithUIKit.app */;
 			productType = "com.apple.product-type.application";
@@ -255,6 +286,10 @@
 				Base,
 			);
 			mainGroup = F47DFCD82AFE50D70073B538;
+			packageReferences = (
+				F4CBF1D52AFE739C00B461E7 /* XCRemoteSwiftPackageReference "Charts" */,
+				F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = F47DFCE22AFE50D70073B538 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -273,7 +308,6 @@
 			files = (
 				F47DFCF12AFE50DA0073B538 /* LaunchScreen.storyboard in Resources */,
 				F47DFCEE2AFE50DA0073B538 /* Assets.xcassets in Resources */,
-				F47DFCEC2AFE50D70073B538 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,8 +332,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F47DFCE92AFE50D70073B538 /* ViewController.swift in Sources */,
 				F47DFCE52AFE50D70073B538 /* AppDelegate.swift in Sources */,
+				F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */,
+				F4B09CD32AFEACA5004C1E07 /* TransactionRealm.swift in Sources */,
+				F4B09CD92AFF9FE8004C1E07 /* DataManager.swift in Sources */,
+				F47DFD1A2AFE51890073B538 /* Transaction.swift in Sources */,
+				F47DFD1D2AFE51CF0073B538 /* TransactionsViewController.swift in Sources */,
 				F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,14 +375,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F47DFCEA2AFE50D70073B538 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F47DFCEB2AFE50D70073B538 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		F47DFCEF2AFE50DA0073B538 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -487,7 +517,6 @@
 				INFOPLIST_FILE = FinanceTrackerWithUIKit/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,7 +544,6 @@
 				INFOPLIST_FILE = FinanceTrackerWithUIKit/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -647,6 +675,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		F4CBF1D52AFE739C00B461E7 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F4B09CCC2AFE817D004C1E07 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4CBF1D52AFE739C00B461E7 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+		F4B09CCE2AFE817D004C1E07 /* DGChartsDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4CBF1D52AFE739C00B461E7 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGChartsDynamic;
+		};
+		F4B09CD42AFEACDB004C1E07 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		F4B09CD62AFEACDB004C1E07 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F47DFCD92AFE50D70073B538 /* Project object */;
 }
