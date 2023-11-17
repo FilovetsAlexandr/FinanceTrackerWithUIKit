@@ -8,11 +8,41 @@
 import UIKit
 
 class IncomeViewController: UIViewController {
+     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Добавим код для настройки вида IncomeViewController
         view.backgroundColor = .white
-        title = "Income"
-        tabBarItem = UITabBarItem(title: "Income", image: UIImage(systemName: "chart.bar.fill"), tag: 1)
+        setupUI()
     }
-}
+
+    private func setupUI() {
+        title = "Income"
+    navigationController?.navigationBar.prefersLargeTitles = true
+
+    }
+//    override func viewWillAppear(_ animated: Bool) {
+//            super.viewWillAppear(animated)
+//            showLoadingAnimation(view: self.view)
+//        }
+//
+//        override func viewWillDisappear(_ animated: Bool) {
+//            super.viewWillDisappear(animated)
+//            hideLoadingAnimation()
+//        }
+//
+//        func showLoadingAnimation(view: UIView) {
+//            animationView.isHidden = false
+//            animationView.animation = LottieAnimation.named("pig")
+//            animationView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+//            animationView.center = view.center
+//            animationView.contentMode = .scaleAspectFill
+//            animationView.loopMode = .loop
+//            animationView.play()
+//            view.addSubview(animationView)
+//        }
+//
+//        func hideLoadingAnimation() {
+//            animationView.stop()
+//            animationView.isHidden = true
+//        }
+    }

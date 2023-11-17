@@ -14,23 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        let expensesViewController = ExpensesViewController()
-        let incomeViewController = IncomeViewController()
-        let chartsViewController = ChartsViewController()
-
-        let expensesNavController = UINavigationController(rootViewController: expensesViewController)
-        let incomeNavController = UINavigationController(rootViewController: incomeViewController)
-        let chartsNavController = UINavigationController(rootViewController: chartsViewController)
-
-        expensesNavController.navigationBar.prefersLargeTitles = true
-        incomeNavController.navigationBar.prefersLargeTitles = true
-        chartsNavController.navigationBar.prefersLargeTitles = true
-
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [expensesNavController, incomeNavController, chartsNavController]
-
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = tabBarController
+        window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
     }
 }

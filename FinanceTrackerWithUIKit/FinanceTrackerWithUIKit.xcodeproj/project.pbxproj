@@ -11,6 +11,10 @@
 		F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */; };
 		F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F82B03C109008DF5ED /* TabBarController.swift */; };
 		F447B4FF2B03FA51008DF5ED /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F447B4FE2B03FA51008DF5ED /* Lottie */; };
+		F447B5022B05204E008DF5ED /* pig.json in Resources */ = {isa = PBXBuildFile; fileRef = F447B5012B05204E008DF5ED /* pig.json */; };
+		F447B5052B057F03008DF5ED /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B5042B057F03008DF5ED /* UIColorExtension.swift */; };
+		F447B5072B077DBC008DF5ED /* ExpensesListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B5062B077DBC008DF5ED /* ExpensesListModel.swift */; };
+		F447B5092B077DE7008DF5ED /* ExpensesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B5082B077DE7008DF5ED /* ExpensesModel.swift */; };
 		F47DFCE52AFE50D70073B538 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE42AFE50D70073B538 /* AppDelegate.swift */; };
 		F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE62AFE50D70073B538 /* SceneDelegate.swift */; };
 		F47DFCEE2AFE50DA0073B538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F47DFCED2AFE50DA0073B538 /* Assets.xcassets */; };
@@ -18,14 +22,9 @@
 		F47DFCFC2AFE50DA0073B538 /* FinanceTrackerWithUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCFB2AFE50DA0073B538 /* FinanceTrackerWithUIKitTests.swift */; };
 		F47DFD062AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD052AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.swift */; };
 		F47DFD082AFE50DA0073B538 /* FinanceTrackerWithUIKitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD072AFE50DA0073B538 /* FinanceTrackerWithUIKitUITestsLaunchTests.swift */; };
-		F47DFD1A2AFE51890073B538 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD192AFE51890073B538 /* Transaction.swift */; };
-		F47DFD1D2AFE51CF0073B538 /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD1C2AFE51CF0073B538 /* TransactionsViewController.swift */; };
-		F4B09CCD2AFE817D004C1E07 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CCC2AFE817D004C1E07 /* DGCharts */; };
-		F4B09CCF2AFE817D004C1E07 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CCE2AFE817D004C1E07 /* DGChartsDynamic */; };
-		F4B09CD32AFEACA5004C1E07 /* TransactionRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B09CD22AFEACA5004C1E07 /* TransactionRealm.swift */; };
 		F4B09CD52AFEACDB004C1E07 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CD42AFEACDB004C1E07 /* Realm */; };
 		F4B09CD72AFEACDB004C1E07 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CD62AFEACDB004C1E07 /* RealmSwift */; };
-		F4B09CD92AFF9FE8004C1E07 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B09CD82AFF9FE7004C1E07 /* DataManager.swift */; };
+		F4B09CD92AFF9FE8004C1E07 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B09CD82AFF9FE7004C1E07 /* StorageManager.swift */; };
 		F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +49,10 @@
 		F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
 		F447B4F82B03C109008DF5ED /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		F447B5012B05204E008DF5ED /* pig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pig.json; sourceTree = "<group>"; };
+		F447B5042B057F03008DF5ED /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		F447B5062B077DBC008DF5ED /* ExpensesListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesListModel.swift; sourceTree = "<group>"; };
+		F447B5082B077DE7008DF5ED /* ExpensesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesModel.swift; sourceTree = "<group>"; };
 		F47DFCE12AFE50D70073B538 /* FinanceTrackerWithUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinanceTrackerWithUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DFCE42AFE50D70073B538 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F47DFCE62AFE50D70073B538 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,10 +64,7 @@
 		F47DFD012AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinanceTrackerWithUIKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DFD052AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceTrackerWithUIKitUITests.swift; sourceTree = "<group>"; };
 		F47DFD072AFE50DA0073B538 /* FinanceTrackerWithUIKitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceTrackerWithUIKitUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		F47DFD192AFE51890073B538 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
-		F47DFD1C2AFE51CF0073B538 /* TransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
-		F4B09CD22AFEACA5004C1E07 /* TransactionRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRealm.swift; sourceTree = "<group>"; };
-		F4B09CD82AFF9FE7004C1E07 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		F4B09CD82AFF9FE7004C1E07 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,8 +76,6 @@
 				F447B4FF2B03FA51008DF5ED /* Lottie in Frameworks */,
 				F4B09CD72AFEACDB004C1E07 /* RealmSwift in Frameworks */,
 				F4B09CD52AFEACDB004C1E07 /* Realm in Frameworks */,
-				F4B09CCF2AFE817D004C1E07 /* DGChartsDynamic in Frameworks */,
-				F4B09CCD2AFE817D004C1E07 /* DGCharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +96,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F447B5002B05202E008DF5ED /* Lottie-Animation */ = {
+			isa = PBXGroup;
+			children = (
+				F447B5012B05204E008DF5ED /* pig.json */,
+			);
+			path = "Lottie-Animation";
+			sourceTree = "<group>";
+		};
+		F447B5032B057EC2008DF5ED /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F447B5042B057F03008DF5ED /* UIColorExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		F47DFCD82AFE50D70073B538 = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +135,7 @@
 		F47DFCE32AFE50D70073B538 /* FinanceTrackerWithUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				F447B5032B057EC2008DF5ED /* Extensions */,
 				F4B09CD02AFEAB8A004C1E07 /* Managers */,
 				F47DFD152AFE51090073B538 /* Models */,
 				F47DFD162AFE51140073B538 /* Views */,
@@ -161,8 +176,8 @@
 		F47DFD152AFE51090073B538 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F47DFD192AFE51890073B538 /* Transaction.swift */,
-				F4B09CD22AFEACA5004C1E07 /* TransactionRealm.swift */,
+				F447B5062B077DBC008DF5ED /* ExpensesListModel.swift */,
+				F447B5082B077DE7008DF5ED /* ExpensesModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -170,10 +185,9 @@
 		F47DFD162AFE51140073B538 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F47DFD1C2AFE51CF0073B538 /* TransactionsViewController.swift */,
-				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
 				F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */,
 				F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */,
+				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
 				F447B4F82B03C109008DF5ED /* TabBarController.swift */,
 			);
 			path = Views;
@@ -190,6 +204,7 @@
 		F47DFD182AFE51420073B538 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F447B5002B05202E008DF5ED /* Lottie-Animation */,
 				F47DFCED2AFE50DA0073B538 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -198,7 +213,7 @@
 		F4B09CD02AFEAB8A004C1E07 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				F4B09CD82AFF9FE7004C1E07 /* DataManager.swift */,
+				F4B09CD82AFF9FE7004C1E07 /* StorageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -220,8 +235,6 @@
 			);
 			name = FinanceTrackerWithUIKit;
 			packageProductDependencies = (
-				F4B09CCC2AFE817D004C1E07 /* DGCharts */,
-				F4B09CCE2AFE817D004C1E07 /* DGChartsDynamic */,
 				F4B09CD42AFEACDB004C1E07 /* Realm */,
 				F4B09CD62AFEACDB004C1E07 /* RealmSwift */,
 				F447B4FE2B03FA51008DF5ED /* Lottie */,
@@ -299,7 +312,6 @@
 			);
 			mainGroup = F47DFCD82AFE50D70073B538;
 			packageReferences = (
-				F4CBF1D52AFE739C00B461E7 /* XCRemoteSwiftPackageReference "Charts" */,
 				F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				F447B4FD2B03FA51008DF5ED /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
@@ -321,6 +333,7 @@
 			files = (
 				F47DFCF12AFE50DA0073B538 /* LaunchScreen.storyboard in Resources */,
 				F47DFCEE2AFE50DA0073B538 /* Assets.xcassets in Resources */,
+				F447B5022B05204E008DF5ED /* pig.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,10 +363,10 @@
 				F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */,
 				F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */,
 				F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */,
-				F4B09CD32AFEACA5004C1E07 /* TransactionRealm.swift in Sources */,
-				F4B09CD92AFF9FE8004C1E07 /* DataManager.swift in Sources */,
-				F47DFD1A2AFE51890073B538 /* Transaction.swift in Sources */,
-				F47DFD1D2AFE51CF0073B538 /* TransactionsViewController.swift in Sources */,
+				F4B09CD92AFF9FE8004C1E07 /* StorageManager.swift in Sources */,
+				F447B5052B057F03008DF5ED /* UIColorExtension.swift in Sources */,
+				F447B5072B077DBC008DF5ED /* ExpensesListModel.swift in Sources */,
+				F447B5092B077DE7008DF5ED /* ExpensesModel.swift in Sources */,
 				F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -709,14 +722,6 @@
 				kind = branch;
 			};
 		};
-		F4CBF1D52AFE739C00B461E7 /* XCRemoteSwiftPackageReference "Charts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/danielgindi/Charts.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -724,16 +729,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F447B4FD2B03FA51008DF5ED /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
-		};
-		F4B09CCC2AFE817D004C1E07 /* DGCharts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F4CBF1D52AFE739C00B461E7 /* XCRemoteSwiftPackageReference "Charts" */;
-			productName = DGCharts;
-		};
-		F4B09CCE2AFE817D004C1E07 /* DGChartsDynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F4CBF1D52AFE739C00B461E7 /* XCRemoteSwiftPackageReference "Charts" */;
-			productName = DGChartsDynamic;
 		};
 		F4B09CD42AFEACDB004C1E07 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -10,9 +10,12 @@ import UIKit
 class ChartsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Добавим код для настройки вида ChartsViewController
-        view.backgroundColor = .white
+        setupUI()
+    }
+    private func setupUI() {
         title = "Charts"
-        tabBarItem = UITabBarItem(title: "Charts", image: UIImage(systemName: "chart.pie.fill"), tag: 2)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .white
     }
 }
+
