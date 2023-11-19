@@ -16,7 +16,7 @@ class IncomeViewController: UIViewController {
     }
 
     private func setupUI() {
-        title = "Income"
+        title = "Доходы"
     navigationController?.navigationBar.prefersLargeTitles = true
 
     }

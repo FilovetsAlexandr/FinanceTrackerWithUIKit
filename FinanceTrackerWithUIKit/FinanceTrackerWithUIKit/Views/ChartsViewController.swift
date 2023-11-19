@@ -13,7 +13,7 @@ class ChartsViewController: UIViewController {
         setupUI()
     }
     private func setupUI() {
-        title = "Charts"
+        title = "Статистика"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .white
     }

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */; };
+		F447B4F42B03BCF1008DF5ED /* ExpensesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesListViewController.swift */; };
 		F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */; };
 		F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F82B03C109008DF5ED /* TabBarController.swift */; };
 		F447B4FF2B03FA51008DF5ED /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F447B4FE2B03FA51008DF5ED /* Lottie */; };
@@ -46,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
+		F447B4F32B03BCF1008DF5ED /* ExpensesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesListViewController.swift; sourceTree = "<group>"; };
 		F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
 		F447B4F82B03C109008DF5ED /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F447B5012B05204E008DF5ED /* pig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pig.json; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 		F47DFD162AFE51140073B538 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */,
+				F447B4F32B03BCF1008DF5ED /* ExpensesListViewController.swift */,
 				F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */,
 				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
 				F447B4F82B03C109008DF5ED /* TabBarController.swift */,
@@ -360,7 +360,7 @@
 			files = (
 				F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */,
 				F47DFCE52AFE50D70073B538 /* AppDelegate.swift in Sources */,
-				F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */,
+				F447B4F42B03BCF1008DF5ED /* ExpensesListViewController.swift in Sources */,
 				F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */,
 				F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */,
 				F4B09CD92AFF9FE8004C1E07 /* StorageManager.swift in Sources */,
