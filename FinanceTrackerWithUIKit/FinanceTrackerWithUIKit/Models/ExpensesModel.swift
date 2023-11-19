@@ -9,8 +9,11 @@ import Foundation
 import RealmSwift
 
 class Expenses: Object {
+    @Persisted var category = ""
     @Persisted var name = ""
     @Persisted var note = ""
     @Persisted var date = Date()
     @Persisted var amount: Double = 0.0
 }
+
+

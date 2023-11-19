@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F447B4F42B03BCF1008DF5ED /* ExpensesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesListViewController.swift */; };
+		F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */; };
 		F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */; };
 		F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F82B03C109008DF5ED /* TabBarController.swift */; };
 		F447B4FF2B03FA51008DF5ED /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F447B4FE2B03FA51008DF5ED /* Lottie */; };
 		F447B5022B05204E008DF5ED /* pig.json in Resources */ = {isa = PBXBuildFile; fileRef = F447B5012B05204E008DF5ED /* pig.json */; };
 		F447B5052B057F03008DF5ED /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B5042B057F03008DF5ED /* UIColorExtension.swift */; };
-		F447B5072B077DBC008DF5ED /* ExpensesListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B5062B077DBC008DF5ED /* ExpensesListModel.swift */; };
 		F447B5092B077DE7008DF5ED /* ExpensesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B5082B077DE7008DF5ED /* ExpensesModel.swift */; };
+		F447B50C2B0AABB8008DF5ED /* AddExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B50B2B0AABB8008DF5ED /* AddExpenseViewController.swift */; };
 		F47DFCE52AFE50D70073B538 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE42AFE50D70073B538 /* AppDelegate.swift */; };
 		F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE62AFE50D70073B538 /* SceneDelegate.swift */; };
 		F47DFCEE2AFE50DA0073B538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F47DFCED2AFE50DA0073B538 /* Assets.xcassets */; };
@@ -46,13 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F447B4F32B03BCF1008DF5ED /* ExpensesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesListViewController.swift; sourceTree = "<group>"; };
+		F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
 		F447B4F82B03C109008DF5ED /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F447B5012B05204E008DF5ED /* pig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pig.json; sourceTree = "<group>"; };
 		F447B5042B057F03008DF5ED /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
-		F447B5062B077DBC008DF5ED /* ExpensesListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesListModel.swift; sourceTree = "<group>"; };
 		F447B5082B077DE7008DF5ED /* ExpensesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesModel.swift; sourceTree = "<group>"; };
+		F447B50B2B0AABB8008DF5ED /* AddExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
 		F47DFCE12AFE50D70073B538 /* FinanceTrackerWithUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinanceTrackerWithUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DFCE42AFE50D70073B538 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F47DFCE62AFE50D70073B538 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +110,15 @@
 				F447B5042B057F03008DF5ED /* UIColorExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F447B50A2B0AAB9B008DF5ED /* Expenses */ = {
+			isa = PBXGroup;
+			children = (
+				F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */,
+				F447B50B2B0AABB8008DF5ED /* AddExpenseViewController.swift */,
+			);
+			path = Expenses;
 			sourceTree = "<group>";
 		};
 		F47DFCD82AFE50D70073B538 = {
@@ -176,7 +185,6 @@
 		F47DFD152AFE51090073B538 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F447B5062B077DBC008DF5ED /* ExpensesListModel.swift */,
 				F447B5082B077DE7008DF5ED /* ExpensesModel.swift */,
 			);
 			path = Models;
@@ -185,7 +193,7 @@
 		F47DFD162AFE51140073B538 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F447B4F32B03BCF1008DF5ED /* ExpensesListViewController.swift */,
+				F447B50A2B0AAB9B008DF5ED /* Expenses */,
 				F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */,
 				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
 				F447B4F82B03C109008DF5ED /* TabBarController.swift */,
@@ -360,13 +368,13 @@
 			files = (
 				F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */,
 				F47DFCE52AFE50D70073B538 /* AppDelegate.swift in Sources */,
-				F447B4F42B03BCF1008DF5ED /* ExpensesListViewController.swift in Sources */,
+				F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */,
 				F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */,
 				F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */,
 				F4B09CD92AFF9FE8004C1E07 /* StorageManager.swift in Sources */,
 				F447B5052B057F03008DF5ED /* UIColorExtension.swift in Sources */,
-				F447B5072B077DBC008DF5ED /* ExpensesListModel.swift in Sources */,
 				F447B5092B077DE7008DF5ED /* ExpensesModel.swift in Sources */,
+				F447B50C2B0AABB8008DF5ED /* AddExpenseViewController.swift in Sources */,
 				F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

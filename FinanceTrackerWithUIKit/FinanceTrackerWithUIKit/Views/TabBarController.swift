@@ -12,7 +12,7 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let expensesListViewController = ExpensesListViewController()
+        let expensesListViewController = ExpensesViewController()
         let incomeViewController = IncomeViewController()
         let chartsViewController = ChartsViewController()
                 

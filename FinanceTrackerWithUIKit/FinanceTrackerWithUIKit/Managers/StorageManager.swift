@@ -10,59 +10,57 @@ import RealmSwift
 
 let realm = try! Realm()
 
-
 class StorageManager {
     static let shared = StorageManager()
-    
-    static func getAllExpensesList() -> Results<ExpensesList> {
-        realm.objects(ExpensesList.self)
-    }
 
-    static func deleteExpensesList(expensesList: ExpensesList) {
+    static func getAllExpenses() -> Results<Expenses> { realm.objects(Expenses.self) }
+
+    static func deleteAll() {
         do {
             try realm.write {
-                let expenses = expensesList.expenses
-                // последовательно удаляем expenses, а затем там ExpensesList
-                realm.delete(expenses)
-                realm.delete(expensesList)
+                realm.deleteAll()
             }
         } catch {
-            print("deleteTasksList error: \(error)")
+            print("deleteAll error: \(error)")
         }
     }
-    static func editExpensesList(expensesList: ExpensesList, newListName: String) {
+
+    static func deleteExpenses(expenses: Expenses) {
+        do {
+//            let realm = try Realm()
+            try realm.write {
+                realm.delete(expenses)
+            }
+        } catch {
+            print("deleteExpenses error: \(error)")
+        }
+    }
+
+    static func editExpenses(expenses: Expenses, newExpenseName: String) {
         do {
             try realm.write {
-                expensesList.name = newListName
+                expenses.name = newExpenseName
             }
         } catch {
             print("editeTasksList error: \(error)")
         }
     }
 
-    static func saveExpensesList(expensesList: ExpensesList) {
+    static func saveExpenses(expenses: Expenses) {
         do {
+//            let realm = try Realm()
             try realm.write {
-                realm.add(expensesList)
+                realm.add(expenses)
             }
         } catch {
-            print("saveTasksList error: \(error)")
+            print("Error saving expenses: \(error)")
         }
     }
-    
-    static func saveExpenses(expensesList: ExpensesList, expenses: Expenses) {
-        do {
-            try realm.write {
-                expensesList.expenses.append(expenses)
-            }
-        } catch {
-            print("saveTask error: \(error)")
-        }
-    }
-    
+
     static func editExpenses(expenses: Expenses,
                              newName: String,
-                             newNote: String) {
+                             newNote: String)
+    {
         do {
             try realm.write {
                 expenses.name = newName
@@ -72,21 +70,11 @@ class StorageManager {
             print("editTask error: \(error)")
         }
     }
-    
-    static func deleteExpenses(expenses: Expenses) {
-        do {
-            try realm.write {
-                realm.delete(expenses)
-            }
-        } catch {
-            print("deleteTask error: \(error)")
-        }
-    }
 
     static func findRealmFile() {
         print("Realm is located at:", realm.configuration.fileURL!)
     }
-    
+
     static func deleteExpense(expense: Expenses) {
         try! realm.write {
             realm.delete(expense)
