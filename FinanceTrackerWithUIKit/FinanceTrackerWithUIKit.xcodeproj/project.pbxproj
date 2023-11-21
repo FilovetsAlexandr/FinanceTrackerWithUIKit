@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F402F76A2B0B9BFE00823872 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402F7692B0B9BFE00823872 /* CategoryModel.swift */; };
 		F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */; };
 		F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */; };
 		F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F82B03C109008DF5ED /* TabBarController.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F402F7692B0B9BFE00823872 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
 		F447B4F82B03C109008DF5ED /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				F447B5082B077DE7008DF5ED /* ExpensesModel.swift */,
+				F402F7692B0B9BFE00823872 /* CategoryModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */,
 				F4B09CD92AFF9FE8004C1E07 /* StorageManager.swift in Sources */,
 				F447B5052B057F03008DF5ED /* UIColorExtension.swift in Sources */,
+				F402F76A2B0B9BFE00823872 /* CategoryModel.swift in Sources */,
 				F447B5092B077DE7008DF5ED /* ExpensesModel.swift in Sources */,
 				F447B50C2B0AABB8008DF5ED /* AddExpenseViewController.swift in Sources */,
 				F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */,

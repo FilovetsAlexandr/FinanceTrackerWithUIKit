@@ -9,7 +9,7 @@ import RealmSwift
 import UIKit
 
 class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
-    
+    var addExpenseVC: AddExpenseViewController?
     let searchController = UISearchController(searchResultsController: nil)
 
     var filteredExpenses: [Expenses] = []
@@ -29,6 +29,14 @@ class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         // выборка из DB + сортировка
         expenses = StorageManager.getAllExpenses()
+        addExpenseVC = AddExpenseViewController()
+        // Установка замыкания для получения данных
+//        addExpenseVC?.onExpenseAdded = { [weak self] expense in
+//        // Сохранение объекта Expense в RealmSwift
+//        StorageManager.saveExpenses(expenses: expense)
+//        // Обновление данных в таблице
+//        self?.tableView.reloadData()
+//        }
         addExpensesListObserver()
     }
 
@@ -45,10 +53,8 @@ class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool { true }
 
-    @objc
-    private func addBarButtonSystemItemSelector() {
-        let addExpenseVC = AddExpenseViewController()
-        let navController = UINavigationController(rootViewController: addExpenseVC)
+    @objc private func addBarButtonSystemItemSelector() {
+        let navController = UINavigationController(rootViewController: addExpenseVC!)
         present(navController, animated: true, completion: nil)
     }
 
