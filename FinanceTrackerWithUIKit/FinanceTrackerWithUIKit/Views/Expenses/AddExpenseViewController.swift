@@ -240,6 +240,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if buttonMaxY > visibleHeight {
             let offsetY = buttonMaxY - visibleHeight
             view.transform = CGAffineTransform(translationX: 0, y: -offsetY)
+        } else {
             view.transform = CGAffineTransform.identity
         }
     }
