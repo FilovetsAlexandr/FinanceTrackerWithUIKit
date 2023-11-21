@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "Ð¡Ð½Ð¸Ð¼Ð¾Ðº_ÑÐºÑÐ°Ð½Ð°_2023-11-20_Ð²_00.27.02-removebg-preview.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
