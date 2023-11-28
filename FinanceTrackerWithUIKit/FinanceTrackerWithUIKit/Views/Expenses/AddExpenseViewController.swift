@@ -12,7 +12,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     let datePicker = UIDatePicker()
 
-    var categories = ["Покупки", "Еда", "Развлечения", "Подарки", "Связь и интернет", "Путешествия"]
+    var categories = ["Покупки", "Еда", "Развлечения", "Подарки", "Связь и интернет", "Путешествия","Автомобиль", "Дом", "Здоровье", "Хобби", "Одежда", "Питание","Подарки", "Техника", "Услуги", "Продукты"]
 
 
     let titleLabel: UILabel = {
@@ -110,10 +110,10 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     func setupUI() {
         dateTextField.addTarget(self, action: #selector(dateTextFieldTapped), for: .touchUpInside)
-        // Установите экземпляр UIDatePicker в качестве inputView для dateTextField
+        // Установливаем экземпляр UIDatePicker в качестве inputView для dateTextField
             dateTextField.inputView = datePicker
             
-            // Добавьте кнопку "Готово" на инструментальную панель UIDatePicker
+            // Добавляем кнопку "Готово" на инструментальную панель UIDatePicker
             let toolbar = UIToolbar()
             toolbar.sizeToFit()
             let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
