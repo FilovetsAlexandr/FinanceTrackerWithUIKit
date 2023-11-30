@@ -56,12 +56,27 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    let dateButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "calendar"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     let dateTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.inputView = UIDatePicker()
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .dateAndTime
+        textField.inputView = datePicker
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        textField.text = dateFormatter.string(from: Date())
+        
+        textField.isUserInteractionEnabled = false
         return textField
     }()
 
@@ -109,7 +124,9 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     func setupUI() {
-        dateTextField.addTarget(self, action: #selector(dateTextFieldTapped), for: .touchUpInside)
+
+        dateButton.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
+       
         // Установливаем экземпляр UIDatePicker в качестве inputView для dateTextField
             dateTextField.inputView = datePicker
             
@@ -123,6 +140,11 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         categoryPicker.delegate = self
         categoryPicker.dataSource = self
         addButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
+        
+//        view.addSubview(dateLabel)
+        view.addSubview(dateButton)
+        view.addSubview(dateTextField)
+        
         
         view.backgroundColor = .white
         
@@ -169,12 +191,18 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             dateLabel.topAnchor.constraint(equalTo: categoryPicker.bottomAnchor, constant: 16),
             dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
-        
+
         view.addSubview(dateTextField)
         NSLayoutConstraint.activate([
             dateTextField.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 8),
             dateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             dateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+
+        view.addSubview(dateButton)
+        NSLayoutConstraint.activate([
+            dateButton.centerYAnchor.constraint(equalTo: dateTextField.centerYAnchor),
+            dateButton.trailingAnchor.constraint(equalTo: dateTextField.trailingAnchor, constant: -8)
         ])
         
         view.addSubview(commentsLabel)
@@ -275,25 +303,52 @@ extension AddExpenseViewController: UIPopoverPresentationControllerDelegate {
     }
 
 extension AddExpenseViewController: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        textField == dateTextField ? showDatePicker() : ()
-        return textField != dateTextField
-        }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacters.isSuperset(of: characterSet)
     }
+}
 
 extension AddExpenseViewController {
-    func showDatePicker() {
+    @objc func showDatePicker() {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .dateAndTime
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
-        toolbar.setItems([doneButton], animated: false)
         
-        dateTextField.inputView = datePicker
-        dateTextField.inputAccessoryView = toolbar
-        dateTextField.delegate = self
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        
+        if let date = dateFormatter.date(from: dateTextField.text ?? "") {
+            datePicker.date = date
+        }
+        
+        let alertController = UIAlertController(title: "Выберите дату и время", message: nil, preferredStyle: .actionSheet)
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        
+        stackView.addArrangedSubview(datePicker)
+        
+        alertController.view.addSubview(stackView)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: alertController.view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: alertController.view.centerYAnchor, constant: -20),
+            alertController.view.heightAnchor.constraint(equalToConstant: 260)
+        ])
+        
+        let doneAction = UIAlertAction(title: "Готово", style: .default) { _ in
+            self.dateTextField.text = dateFormatter.string(from: datePicker.date)
+        }
+        alertController.addAction(doneAction)
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc func doneButtonTapped() { dateTextField.resignFirstResponder() }

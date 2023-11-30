@@ -31,7 +31,8 @@ class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
         setupUI()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         // выборка из DB + сортировка
-        expenses = StorageManager.getAllExpenses()
+        let storageManager = StorageManager.shared
+        expenses = storageManager.getAllExpenses()
         addExpenseVC = AddExpenseViewController()
         
         dateFormatter = DateFormatter()
