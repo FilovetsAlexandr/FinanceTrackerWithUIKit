@@ -21,6 +21,16 @@ class StorageManager {
     
     static let shared = StorageManager()
     
+    func addCategory(name: String, imageName: String) {
+        let category = Category()
+        category.name = name
+        category.imageName = imageName
+        
+        try! realm.write {
+            realm.add(category)
+        }
+    }
+    
     func getAllExpenses() -> Results<Expenses> {
         return realm.objects(Expenses.self)
     }

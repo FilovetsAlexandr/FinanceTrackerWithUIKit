@@ -8,37 +8,25 @@
 import RealmSwift
 import UIKit
 
-struct ExpenseSection {
-    let date: Date
-    let expenses: [Expenses]
-}
+final class ExpensesViewController: UITableViewController {
 
-class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
-    var addExpenseVC: AddExpenseViewController?
-
-    var filteredExpenses: [Expenses] = []
-    var expenseSections: [ExpenseSection] = []
-    var dateFormatter: DateFormatter!
-
+    private var addExpenseVC: AddExpenseViewController?
+    private var filteredExpenses: [Expenses] = []
+    private var expenseSections: [ExpenseSection] = []
+    private var dateFormatter: DateFormatter!
+    
     // Results - отображает данны в режиме реального времени
-    var expenses: Results<Expenses>!
-
-    var notificationToken: NotificationToken?
+    private var expenses: Results<Expenses>!
+    private var notificationToken: NotificationToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        // выборка из DB + сортировка
-        let storageManager = StorageManager.shared
-        expenses = storageManager.getAllExpenses()
-        addExpenseVC = AddExpenseViewController()
-        
-        dateFormatter = DateFormatter()
-        
-        filteredExpenses = Array(expenses)
-        expenseSections = generateExpenseSections()
+        loadData()
+        setupTableView()
+        setupSearchController()
+        setupNavigationBar()
+        setupAddButton()
     }
 
     // MARK: - Table view data source
@@ -58,67 +46,47 @@ class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
     override func numberOfSections(in tableView: UITableView) -> Int { expenseSections.count }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard section < expenseSections.count else {
-            return 0
-        }
+        guard section < expenseSections.count else { return 0 }
         return expenseSections[section].expenses.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ExpenseTableViewCell(style: .default, reuseIdentifier: "Cell")
-        
-        guard indexPath.section < expenseSections.count, indexPath.row < expenseSections[indexPath.section].expenses.count else {
-            return cell
-        }
-
         let expense = expenseSections[indexPath.section].expenses[indexPath.row]
-
-        dateFormatter.timeStyle = .short
-
-        cell.categoryLabel.text = expense.category
-        
         let amountString = expense.amount.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", expense.amount) : String(format: "%.2f", expense.amount)
         
-        cell.amountLabel.text = amountString + " BYN"
+        dateFormatter.timeStyle = .short
+        
+        guard indexPath.section < expenseSections.count, indexPath.row < expenseSections[indexPath.section].expenses.count else { return cell }
+            
+        cell.categoryLabel.text = expense.category?.name
+        cell.photoImageView.image = UIImage(named: expense.category?.imageName ?? "")
         cell.timeLabel.text = dateFormatter.string(from: expense.date)
-        cell.photoImageView.image = UIImage(named: "product")
+        cell.amountLabel.text = amountString + " BYN"
         
         return cell
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool { true }
 
+    
+    // MARK: - Private methods
+    
     @objc private func addBarButtonSystemItemSelector() {
         let navController = UINavigationController(rootViewController: addExpenseVC!)
         present(navController, animated: true, completion: nil)
     }
-
-    @objc func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            if searchController.searchBar.text?.isEmpty == true {
-                filteredExpenses = Array(expenses)
-            } else {
-                filteredExpenses = Array(expenses.filter { $0.category.lowercased().contains(searchText.lowercased()) })
-            }
-            expenseSections = generateExpenseSections()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
+    
+    private func update() {
+        expenses = StorageManager.shared.getAllExpenses()
+        filteredExpenses = Array(expenses)
+        expenseSections = generateExpenseSections()
+        tableView.reloadData()
     }
-
-    // MARK: - Private methods
-
-    private func setupUI() {
-        title = "Расходы"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonSystemItemSelector))
-        navigationItem.setRightBarButton(add, animated: true)
-        
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+    
+    private func handleExpenseAdded(_ expense: Expenses) {
+        expenseSections = generateExpenseSections()
+        tableView.reloadData()
     }
 
     private func generateExpenseSections() -> [ExpenseSection] {
@@ -129,11 +97,72 @@ class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
 
         for key in sortedKeys {
             if let expenses = groupedExpenses[key] {
-                let section = ExpenseSection(date: key, expenses: expenses)
+                let sortedExpenses = expenses.sorted(by: { $0.date > $1.date })
+                let section = ExpenseSection(date: key, expenses: sortedExpenses)
                 sections.append(section)
             }
         }
-
         return sections
+    }
+    private func setupUI() {
+        title = "Расходы"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        definesPresentationContext = true
+        
+        dateFormatter = DateFormatter()
+    }
+
+    private func loadData() {
+        let storageManager = StorageManager.shared
+        expenses = storageManager.getAllExpenses()
+        filteredExpenses = Array(expenses)
+        expenseSections = generateExpenseSections()
+    }
+
+    private func setupTableView() { tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell") }
+
+    private func setupSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+    }
+
+    private func setupNavigationBar() {
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonSystemItemSelector))
+        navigationItem.setRightBarButton(add, animated: true)
+    }
+
+    private func setupAddButton() {
+        addExpenseVC = AddExpenseViewController()
+        addExpenseVC?.onSubmit = { [weak self] amount, category, date, comments in
+            // Обработка добавления расхода
+            let expense = Expenses()
+            expense.amount = Double(amount) ?? 0.0
+            expense.category = category
+            expense.date = self?.dateFormatter.date(from: date) ?? Date()
+            expense.note = comments ?? ""
+            
+            let storageManager = StorageManager.shared
+            storageManager.saveExpenses(expenses: expense)
+            
+            // Обновление отображения
+            self?.update()
+        }
+    }
+}
+
+extension ExpensesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            if searchText.isEmpty {
+                filteredExpenses = Array(expenses)
+            } else {
+                filteredExpenses = expenses.filter { expense in
+                    expense.category?.name.lowercased().contains(searchText.lowercased()) ?? false
+                }
+            }
+            expenseSections = generateExpenseSections()
+            DispatchQueue.main.async { self.tableView.reloadData() }
+        }
     }
 }

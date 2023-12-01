@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Lottie
 
 class TabBarController: UITabBarController {
     override func viewDidLoad() {

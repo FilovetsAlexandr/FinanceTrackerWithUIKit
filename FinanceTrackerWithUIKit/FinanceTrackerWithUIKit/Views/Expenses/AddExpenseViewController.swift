@@ -9,11 +9,29 @@ import UIKit
 import RealmSwift
 
 class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    var onSubmit: ((String, Category, String, String?) -> Void)?
+    var onExpenseAdded: (() -> Void)?
+    var selectedCategory: String?
     
     let datePicker = UIDatePicker()
-
-    var categories = ["Покупки", "Еда", "Развлечения", "Подарки", "Связь и интернет", "Путешествия","Автомобиль", "Дом", "Здоровье", "Хобби", "Одежда", "Питание","Подарки", "Техника", "Услуги", "Продукты"]
-
+    var categoryImages = [
+        "Покупки": "shopping",
+        "Еда": "food",
+        "Развлечения": "entertainment",
+        "Подарки": "present",
+        "Связь и интернет": "communication",
+        "Путешествия": "travels",
+        "Автомобиль": "car",
+        "Дом": "house",
+        "Здоровье": "health",
+        "Хобби": "hobby",
+        "Одежда": "clothes",
+        "Техника": "drill",
+        "Услуги": "ring",
+        "Продукты": "sausage",
+        "Алкоголь": "beer",
+        "Азартные игры": "casino"
+    ]
 
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -121,6 +139,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        submitButton.addTarget(self, action: #selector(submitButtonPressed), for: .touchUpInside)
     }
 
     func setupUI() {
@@ -139,7 +158,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         categoryPicker.delegate = self
         categoryPicker.dataSource = self
-        addButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
+//        addButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
         
 //        view.addSubview(dateLabel)
         view.addSubview(dateButton)
@@ -234,28 +253,31 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
 
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { categories.count }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { categoryImages.keys.count }
 
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? { categories[row] }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let category = Array(categoryImages.keys)[row]
+        return category
+    }
 
     // MARK: - Actions
 
-    @objc func addCategory() {
-        let alertController = UIAlertController(title: "Добавить категорию", message: nil, preferredStyle: .alert)
-        alertController.addTextField { textField in
-            textField.placeholder = "Название"
-        }
-        let addAction = UIAlertAction(title: "Добавить", style: .default) { _ in
-            if let category = alertController.textFields?.first?.text {
-                self.categories.append(category)
-                self.categoryPicker.reloadAllComponents()
-            }
-        }
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
-        alertController.addAction(addAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true, completion: nil)
-    }
+//    @objc func addCategory() {
+//        let alertController = UIAlertController(title: "Добавить категорию", message: nil, preferredStyle: .alert)
+//        alertController.addTextField { textField in
+//            textField.placeholder = "Название"
+//        }
+//        let addAction = UIAlertAction(title: "Добавить", style: .default) { _ in
+//            if let category = alertController.textFields?.first?.text {
+//                self.categoryImages.append(category)
+//                self.categoryPicker.reloadAllComponents()
+//            }
+//        }
+//        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+//        alertController.addAction(addAction)
+//        alertController.addAction(cancelAction)
+//        present(alertController, animated: true, completion: nil)
+//    }
     @objc func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
@@ -272,33 +294,28 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             view.transform = CGAffineTransform.identity
         }
     }
-    @objc func dateTextFieldTapped() {
-        let datePicker = UIDatePicker()
-        datePicker.datePickerMode = .dateAndTime
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
-        
-        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbar.setItems([flexibleSpace, doneButton], animated: false)
-        
-        let inputView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 250))
-        inputView.backgroundColor = .white
-        inputView.addSubview(datePicker)
-
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        datePicker.leadingAnchor.constraint(equalTo: inputView.leadingAnchor).isActive = true
-        datePicker.trailingAnchor.constraint(equalTo: inputView.trailingAnchor).isActive = true
-        datePicker.topAnchor.constraint(equalTo: inputView.topAnchor).isActive = true
-        datePicker.bottomAnchor.constraint(equalTo: inputView.bottomAnchor).isActive = true
-        
-        dateTextField.inputView = inputView
-        dateTextField.inputAccessoryView = toolbar
-        dateTextField.becomeFirstResponder()
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedCategory = Array(categoryImages.keys)[row]
     }
+    @objc func submitButtonPressed() {
+        // Получаем информацию из текстовых полей
+        let amount = amountTextField.text ?? ""
+        let category = selectedCategory ?? ""
+        let date = dateTextField.text ?? ""
+        let comments = commentsTextField.text
+        
+        let newCategory = Category()
+        newCategory.name = category
+        newCategory.imageName = categoryImages[category]
+        
+        // Вызываем замыкание и передаем информацию
+        onSubmit?(amount, newCategory, date, comments)
+
+        // Закрываем модальное окно
+        dismiss(animated: true, completion: nil)
+      }
 }
 extension AddExpenseViewController: UIPopoverPresentationControllerDelegate {
-    
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle { .none }
     }
 
