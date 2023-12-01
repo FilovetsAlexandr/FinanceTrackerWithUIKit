@@ -7,25 +7,24 @@
 
 import UIKit
 
-class ExpenseTableViewCell: UITableViewCell {
+final class ExpenseTableViewCell: UITableViewCell {
+    
     let categoryLabel = UILabel()
     let amountLabel = UILabel()
     let timeLabel = UILabel()
-    let photoImageView = UIImageView()  // Добавление UIImageView для фотографии
+    let photoImageView = UIImageView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        // Настройка внешнего вида ячейки и добавление элементов интерфейса пользователя
-        
+    
         // Отключение автоматического изменения размера маски элементов
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        photoImageView.translatesAutoresizingMaskIntoConstraints = false  // Отключение автоматического изменения размера маски UIImageView
+        photoImageView.translatesAutoresizingMaskIntoConstraints = false
         
         // Добавление элементов к contentView ячейки
-        contentView.addSubview(photoImageView)  // Добавление UIImageView в contentView ячейки
+        contentView.addSubview(photoImageView)
         contentView.addSubview(categoryLabel)
         contentView.addSubview(amountLabel)
         contentView.addSubview(timeLabel)
@@ -34,8 +33,8 @@ class ExpenseTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            photoImageView.widthAnchor.constraint(equalToConstant: 50),  // Задание ширины UIImageView
-            photoImageView.heightAnchor.constraint(equalToConstant: 50),  // Задание высоты UIImageView
+            photoImageView.widthAnchor.constraint(equalToConstant: 75),  // Задание ширины UIImageView
+            photoImageView.heightAnchor.constraint(equalToConstant: 75),  // Задание высоты UIImageView
             
             categoryLabel.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 10),
             categoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
@@ -51,7 +50,6 @@ class ExpenseTableViewCell: UITableViewCell {
             timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
