@@ -8,14 +8,17 @@
 import RealmSwift
 import UIKit
 
+struct ExpenseSection {
+    let date: Date
+    let expenses: [Expenses]
+}
+
 class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
     var addExpenseVC: AddExpenseViewController?
-    let searchController = UISearchController(searchResultsController: nil)
 
     var filteredExpenses: [Expenses] = []
-
-    var isFiltering: Bool { searchController.isActive && !isSearchBarEmpty }
-    var isSearchBarEmpty: Bool { searchController.searchBar.text?.isEmpty ?? true }
+    var expenseSections: [ExpenseSection] = []
+    var dateFormatter: DateFormatter!
 
     // Results - отображает данны в режиме реального времени
     var expenses: Results<Expenses>!
@@ -24,30 +27,62 @@ class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSearchBar()
+
         setupUI()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         // выборка из DB + сортировка
-        expenses = StorageManager.getAllExpenses()
+        let storageManager = StorageManager.shared
+        expenses = storageManager.getAllExpenses()
         addExpenseVC = AddExpenseViewController()
-        // Установка замыкания для получения данных
-//        addExpenseVC?.onExpenseAdded = { [weak self] expense in
-//        // Сохранение объекта Expense в RealmSwift
-//        StorageManager.saveExpenses(expenses: expense)
-//        // Обновление данных в таблице
-//        self?.tableView.reloadData()
-//        }
-        addExpensesListObserver()
+        
+        dateFormatter = DateFormatter()
+        
+        filteredExpenses = Array(expenses)
+        expenseSections = generateExpenseSections()
     }
 
     // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = SectionHeaderView(reuseIdentifier: "SectionHeader")
+    
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        
+        let dateString = dateFormatter.string(from: expenseSections[section].date)
+        headerView.titleLabel.text = dateString
+        return headerView
+    }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { isFiltering ? filteredExpenses.count : expenses.count }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 45 }
+
+    override func numberOfSections(in tableView: UITableView) -> Int { expenseSections.count }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard section < expenseSections.count else {
+            return 0
+        }
+        return expenseSections[section].expenses.count
+    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let expenses = isFiltering ? filteredExpenses[indexPath.row] : expenses[indexPath.row]
-        cell.textLabel?.text = expenses.category
+        let cell = ExpenseTableViewCell(style: .default, reuseIdentifier: "Cell")
+        
+        guard indexPath.section < expenseSections.count, indexPath.row < expenseSections[indexPath.section].expenses.count else {
+            return cell
+        }
+
+        let expense = expenseSections[indexPath.section].expenses[indexPath.row]
+
+        dateFormatter.timeStyle = .short
+
+        cell.categoryLabel.text = expense.category
+        
+        let amountString = expense.amount.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", expense.amount) : String(format: "%.2f", expense.amount)
+        
+        cell.amountLabel.text = amountString + " BYN"
+        cell.timeLabel.text = dateFormatter.string(from: expense.date)
+        cell.photoImageView.image = UIImage(named: "product")
+        
         return cell
     }
 
@@ -58,56 +93,47 @@ class ExpensesViewController: UITableViewController, UISearchResultsUpdating {
         present(navController, animated: true, completion: nil)
     }
 
-    func updateSearchResults(for searchController: UISearchController) {
+    @objc func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text {
-            filteredExpenses = expenses.filter { $0.category.lowercased().contains(searchText.lowercased()) }
-            tableView.reloadData()
+            if searchController.searchBar.text?.isEmpty == true {
+                filteredExpenses = Array(expenses)
+            } else {
+                filteredExpenses = Array(expenses.filter { $0.category.lowercased().contains(searchText.lowercased()) })
+            }
+            expenseSections = generateExpenseSections()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
 
     // MARK: - Private methods
-
-    private func setupSearchBar() {
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Поиск расходов"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-    }
 
     private func setupUI() {
         title = "Расходы"
         navigationController?.navigationBar.prefersLargeTitles = true
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonSystemItemSelector))
         navigationItem.setRightBarButton(add, animated: true)
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
 
-    private func addExpensesListObserver() {
-        notificationToken = expenses.observe { [weak self] changes in
-            guard let self else { return }
-            switch changes {
-                case .initial:
-                    print("= = = initial case")
-                case .update(_, let deletions, let insertions, let modifications):
-                    print("= = = deletions: \(deletions)")
-                    print("= = = insertions: \(insertions)")
-                    print("= = = modifications: \(modifications)")
+    private func generateExpenseSections() -> [ExpenseSection] {
+        var sections: [ExpenseSection] = []
 
-                    // Query results have changed, so apply them to the UITableView
-                    tableView.performBatchUpdates({
-                        // Always apply updates in the following order: deletions, insertions, then modifications.
-                        // Handling insertions before deletions may result in unexpected behavior.
-                        self.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) },
-                                                  with: .automatic)
-                        self.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) },
-                                                  with: .automatic)
-                        self.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) },
-                                                  with: .automatic)
-                    }, completion: { _ in })
-                case .error(let error):
-                    // An error occurred while opening the Realm file on the background worker thread
-                    fatalError("\(error)")
+        let groupedExpenses = Dictionary(grouping: filteredExpenses, by: { Calendar.current.startOfDay(for: $0.date) })
+        let sortedKeys = groupedExpenses.keys.sorted(by: >)
+
+        for key in sortedKeys {
+            if let expenses = groupedExpenses[key] {
+                let section = ExpenseSection(date: key, expenses: expenses)
+                sections.append(section)
             }
         }
+
+        return sections
     }
 }
