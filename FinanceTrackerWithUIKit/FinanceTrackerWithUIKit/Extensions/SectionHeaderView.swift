@@ -7,7 +7,8 @@
 
 import UIKit
 
-class SectionHeaderView: UITableViewHeaderFooterView {
+final class SectionHeaderView: UITableViewHeaderFooterView {
+    
     let titleLabel = UILabel()
 
     override init(reuseIdentifier: String?) {
@@ -31,10 +32,6 @@ class SectionHeaderView: UITableViewHeaderFooterView {
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
-        
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
