@@ -205,7 +205,6 @@
 				F447B50A2B0AAB9B008DF5ED /* Expenses */,
 				F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */,
 				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
-				F447B4F82B03C109008DF5ED /* TabBarController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +212,7 @@
 		F47DFD172AFE51240073B538 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F447B4F82B03C109008DF5ED /* TabBarController.swift */,
 				F47DFCEF2AFE50DA0073B538 /* LaunchScreen.storyboard */,
 			);
 			path = Controllers;

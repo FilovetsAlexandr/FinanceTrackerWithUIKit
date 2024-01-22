@@ -31,6 +31,35 @@ final class ExpensesViewController: UITableViewController {
 
     // MARK: - Table view data source
     
+    // Редактирование расхода
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedExpense = expenses[indexPath.row]
+        showAddExpenseViewController(with: selectedExpense)
+    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction = UIContextualAction(style: .normal, title: "Изменить") { [weak self] (_, _, completion) in
+            self?.editExpense(at: indexPath)
+            completion(true)
+        }
+        editAction.backgroundColor = .gray
+        
+        return UISwipeActionsConfiguration(actions: [editAction])
+    }
+    
+    // Удаление расхода
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] (_, _, completion) in
+            let expense = self?.expenseSections[indexPath.section].expenses[indexPath.row]
+            StorageManager.shared.deleteExpense(expense: expense!)
+            self?.update()
+            completion(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = SectionHeaderView(reuseIdentifier: "SectionHeader")
     
@@ -63,7 +92,7 @@ final class ExpensesViewController: UITableViewController {
         cell.photoImageView.image = UIImage(named: expense.category?.imageName ?? "")
         cell.timeLabel.text = dateFormatter.string(from: expense.date)
         cell.amountLabel.text = amountString + " BYN"
-        
+
         return cell
     }
 
@@ -71,6 +100,29 @@ final class ExpensesViewController: UITableViewController {
 
     
     // MARK: - Private methods
+    
+    private func showAddExpenseViewController(with expense: Expenses) {
+        let addExpenseViewController = AddExpenseViewController()
+        addExpenseViewController.expenseToEdit = expense
+        addExpenseViewController.isEditing = true
+        addExpenseViewController.onExpenseAdded = { [weak self] in
+            // Обновите список расходов в вашем контроллере
+            self?.tableView.reloadData()
+        }
+        navigationController?.pushViewController(addExpenseViewController, animated: true)
+    }
+    
+    private func editExpense(at indexPath: IndexPath) {
+        let expense = expenseSections[indexPath.section].expenses[indexPath.row]
+        
+        let editExpenseVC = AddExpenseViewController()
+        editExpenseVC.expenseToEdit = expense
+        
+        // Произведите настройку контроллера здесь, используя свойство expenseToEdit
+        
+        let navController = UINavigationController(rootViewController: editExpenseVC)
+        present(navController, animated: true, completion: nil)
+    }
     
     @objc private func addBarButtonSystemItemSelector() {
         let navController = UINavigationController(rootViewController: addExpenseVC!)

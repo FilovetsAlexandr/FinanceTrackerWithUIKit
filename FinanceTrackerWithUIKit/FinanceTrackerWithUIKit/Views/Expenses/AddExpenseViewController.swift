@@ -12,7 +12,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var onSubmit: ((String, Category, String, String?) -> Void)?
     var onExpenseAdded: (() -> Void)?
     var selectedCategory: String?
-    
+    var expenseToEdit: Expenses?
     let datePicker = UIDatePicker()
     var categoryImages = [
         "Покупки": "shopping",
@@ -140,6 +140,24 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         super.viewDidLoad()
         setupUI()
         submitButton.addTarget(self, action: #selector(submitButtonPressed), for: .touchUpInside)
+ 
+        if let expense = expenseToEdit {
+            // Заполняем поля ввода данными из expense
+            amountTextField.text = "\(expense.amount )"
+            if let expense = expenseToEdit, let categoryName = expense.category?.name {
+                if let categoryImageName = categoryImages[categoryName] {
+                    if let categoryIndex = Array(categoryImages.keys).firstIndex(of: categoryName) {
+                        categoryPicker.selectRow(categoryIndex, inComponent: 0, animated: false)
+                    }
+                }
+            }
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+            dateTextField.text = dateFormatter.string(from: expense.date)
+            
+            commentsTextField.text = expense.note
+        }
     }
 
     func setupUI() {

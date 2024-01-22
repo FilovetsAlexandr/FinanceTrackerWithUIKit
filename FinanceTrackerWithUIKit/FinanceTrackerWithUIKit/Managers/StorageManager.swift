@@ -86,6 +86,12 @@ class StorageManager {
         }
     }
     
+    func updateExpense(expense: Expenses) {
+           try! realm.write {
+               realm.add(expense, update: .modified)
+           }
+       }
+    
     func findRealmFile() {
         print("Realm is located at:", realm.configuration.fileURL!)
     }

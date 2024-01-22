@@ -39,47 +39,65 @@ class ChartsViewController: UIViewController {
     
     private func setupPieChart() {
         pieChart.delegate = self
-        view.addSubview(pieChart)
+             view.addSubview(pieChart)
+             
+             pieChart.entryLabelFont = UIFont.systemFont(ofSize: 12)
+             pieChart.entryLabelColor = .black
+             pieChart.drawEntryLabelsEnabled = true
+             pieChart.legend.enabled = false
         
     }
     
     private func loadData() {
         expenses = realm.objects(Expenses.self)
-        updatePieChart()
+        updateChartData()
     }
     
-    private func updatePieChart() {
-        var entries = [PieChartDataEntry]()
-        var totalAmount: Double = 0.0
+    func updateChartData() {
+        let chartHeight = self.view.frame.height - (self.tabBarController?.tabBar.frame.height)!
+        let chart = PieChartView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: chartHeight))
         
-        var categoryAmounts = [String: Double]()
+        var categoryExpenses: [String: Double] = [:]
         
+        // Здесь мы используем вашу базу данных для получения категорий и сумм
         for expense in expenses {
             if let categoryName = expense.category?.name {
-                totalAmount += expense.amount
-                
-                if let currentAmount = categoryAmounts[categoryName] {
-                    categoryAmounts[categoryName] = currentAmount + expense.amount
+                if let currentAmount = categoryExpenses[categoryName] {
+                    categoryExpenses[categoryName] = currentAmount + expense.amount
+                    pieChart.notifyDataSetChanged()
                 } else {
-                    categoryAmounts[categoryName] = expense.amount
+                    categoryExpenses[categoryName] = expense.amount
+                    pieChart.notifyDataSetChanged()
                 }
             }
         }
         
-        for (category, amount) in categoryAmounts {
-            let percent = (amount / totalAmount) * 100.0
-            let entry = PieChartDataEntry(value: percent, label: category)
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        
+        // Генерируем случайные цвета для графика
+        for (category, amount) in categoryExpenses {
+            let entry = PieChartDataEntry(value: amount, label: category)
+            pieChart.notifyDataSetChanged()
             entries.append(entry)
+            
+            let red = Double(arc4random_uniform(256))
+            let green = Double(arc4random_uniform(256))
+            let blue = Double(arc4random_uniform(256))
+            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
+            colors.append(color)
         }
         
-        let dataSet = PieChartDataSet(entries: entries, label: "")
-        dataSet.colors = ChartColorTemplates.joyful()
+        let set = PieChartDataSet(entries: entries, label: "")
+        set.colors = colors
+        let data = PieChartData(dataSet: set)
+        chart.data = data
+        chart.noDataText = "No data available"
+        chart.isUserInteractionEnabled = true
         
-        let data = PieChartData(dataSet: dataSet)
-        pieChart.data = data
+        self.view.addSubview(chart)
     }
 }
 
 extension ChartsViewController: ChartViewDelegate {
-    // Реализация методов делегата графика PieChart
 }
