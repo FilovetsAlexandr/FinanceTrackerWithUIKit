@@ -3,7 +3,7 @@
 //  FinanceTrackerWithUIKit
 //
 //  Created by Alexandr Filovets on 14.11.23.
-//
+
 
 import RealmSwift
 import UIKit
@@ -11,13 +11,12 @@ import UIKit
 final class ExpensesViewController: UITableViewController {
 
     private var addExpenseVC: AddExpenseViewController?
+    private var editExpenseVC: AddExpenseViewController?
     private var filteredExpenses: [Expenses] = []
     private var expenseSections: [ExpenseSection] = []
     private var dateFormatter: DateFormatter!
-    
-    // Results - отображает данны в режиме реального времени
     private var expenses: Results<Expenses>!
-    private var notificationToken: NotificationToken?
+//    private var notificationToken: NotificationToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,17 +31,20 @@ final class ExpensesViewController: UITableViewController {
     // MARK: - Table view data source
     
     // Редактирование расхода
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedExpense = expenses[indexPath.row]
-        showAddExpenseViewController(with: selectedExpense)
-    }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = UIContextualAction(style: .normal, title: "Изменить") { [weak self] (_, _, completion) in
             self?.editExpense(at: indexPath)
             completion(true)
+            self?.update()
         }
         editAction.backgroundColor = .gray
+        
+        let addExpenseViewController = AddExpenseViewController()
+        addExpenseViewController.expensesViewController = self
+        let navController = UINavigationController(rootViewController: addExpenseViewController)
+        
+        self.present(navController, animated: true, completion: nil)
         
         return UISwipeActionsConfiguration(actions: [editAction])
     }
@@ -52,9 +54,21 @@ final class ExpensesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] (_, _, completion) in
             let expense = self?.expenseSections[indexPath.section].expenses[indexPath.row]
-            StorageManager.shared.deleteExpense(expense: expense!)
-            self?.update()
-            completion(true)
+            
+            let alert = UIAlertController(title: "Удаление", message: "Вы действительно хотите удалить?", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "Отмена", style: .cancel) { _ in completion(false) }
+            
+            let deleteConfirmAction = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+                StorageManager.shared.deleteExpense(expense: expense!)
+                self?.update()
+                completion(true) // Подтвердить удаление
+            }
+            
+            alert.addAction(cancelAction)
+            alert.addAction(deleteConfirmAction)
+            
+            self?.present(alert, animated: true, completion: nil)
         }
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
@@ -62,9 +76,7 @@ final class ExpensesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = SectionHeaderView(reuseIdentifier: "SectionHeader")
-    
         dateFormatter.dateFormat = "dd MMM yyyy"
-        
         let dateString = dateFormatter.string(from: expenseSections[section].date)
         headerView.titleLabel.text = dateString
         return headerView
@@ -105,21 +117,20 @@ final class ExpensesViewController: UITableViewController {
         let addExpenseViewController = AddExpenseViewController()
         addExpenseViewController.expenseToEdit = expense
         addExpenseViewController.isEditing = true
-        addExpenseViewController.onExpenseAdded = { [weak self] in
-            // Обновите список расходов в вашем контроллере
-            self?.tableView.reloadData()
-        }
+        addExpenseViewController.onExpenseAdded = { [weak self] in self?.update() }
         navigationController?.pushViewController(addExpenseViewController, animated: true)
     }
     
     private func editExpense(at indexPath: IndexPath) {
-        let expense = expenseSections[indexPath.section].expenses[indexPath.row]
-        
+        // Получаем выбранный расход для редактирования
+        let section = indexPath.section
+        let row = indexPath.row
+        let expenseToEdit = expenseSections[section].expenses[row]
+
         let editExpenseVC = AddExpenseViewController()
-        editExpenseVC.expenseToEdit = expense
-        
-        // Произведите настройку контроллера здесь, используя свойство expenseToEdit
-        
+        editExpenseVC.expenseToEdit = expenseToEdit
+        editExpenseVC.onExpenseAdded = { [weak self] in self?.update() }
+
         let navController = UINavigationController(rootViewController: editExpenseVC)
         present(navController, animated: true, completion: nil)
     }
@@ -129,7 +140,7 @@ final class ExpensesViewController: UITableViewController {
         present(navController, animated: true, completion: nil)
     }
     
-    private func update() {
+     func update() {
         expenses = StorageManager.shared.getAllExpenses()
         filteredExpenses = Array(expenses)
         expenseSections = generateExpenseSections()
@@ -137,6 +148,7 @@ final class ExpensesViewController: UITableViewController {
     }
     
     private func handleExpenseAdded(_ expense: Expenses) {
+        StorageManager.shared.saveExpenses(expenses: expense)
         expenseSections = generateExpenseSections()
         tableView.reloadData()
     }
@@ -169,9 +181,14 @@ final class ExpensesViewController: UITableViewController {
         expenses = storageManager.getAllExpenses()
         filteredExpenses = Array(expenses)
         expenseSections = generateExpenseSections()
+        
     }
 
-    private func setupTableView() { tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell") }
+    private func setupTableView() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
 
     private func setupSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
@@ -194,12 +211,13 @@ final class ExpensesViewController: UITableViewController {
             expense.date = self?.dateFormatter.date(from: date) ?? Date()
             expense.note = comments ?? ""
             
-            let storageManager = StorageManager.shared
-            storageManager.saveExpenses(expenses: expense)
-            
             // Обновление отображения
             self?.update()
         }
+    }
+    private func setupEditButton() {
+        editExpenseVC = AddExpenseViewController()
+        editExpenseVC?.onSubmit = { [weak self] amount, category, date, comments in self?.update() }
     }
 }
 
@@ -209,12 +227,10 @@ extension ExpensesViewController: UISearchResultsUpdating {
             if searchText.isEmpty {
                 filteredExpenses = Array(expenses)
             } else {
-                filteredExpenses = expenses.filter { expense in
-                    expense.category?.name.lowercased().contains(searchText.lowercased()) ?? false
-                }
+                filteredExpenses = expenses.filter { expense in expense.category?.name.lowercased().contains(searchText.lowercased()) ?? false }
             }
             expenseSections = generateExpenseSections()
-            DispatchQueue.main.async { self.tableView.reloadData() }
+            DispatchQueue.main.async { self.update() }
         }
     }
 }
