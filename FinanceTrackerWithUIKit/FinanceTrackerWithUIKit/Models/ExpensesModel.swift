@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 class Expenses: Object {
-    @Persisted var category:Category?
+    @Persisted var category: Category?
     @Persisted var name = ""
     @Persisted var note = ""
     @Persisted var date = Date()

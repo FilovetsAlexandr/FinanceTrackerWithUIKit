@@ -9,10 +9,11 @@ import UIKit
 import RealmSwift
 
 class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    weak var expensesViewController: ExpensesViewController?
     var onSubmit: ((String, Category, String, String?) -> Void)?
     var onExpenseAdded: (() -> Void)?
     var selectedCategory: String?
-    
+    var expenseToEdit: Expenses?
     let datePicker = UIDatePicker()
     var categoryImages = [
         "Покупки": "shopping",
@@ -32,7 +33,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         "Алкоголь": "beer",
         "Азартные игры": "casino"
     ]
-
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Добавить расход"
@@ -40,34 +41,34 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     let amountLabel: UILabel = {
         let label = UILabel()
         label.text = "Сумма"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     let amountTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-
+    
     let categoryLabel: UILabel = {
         let label = UILabel()
         label.text = "Категория"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     let categoryPicker: UIPickerView = {
         let picker = UIPickerView()
         picker.translatesAutoresizingMaskIntoConstraints = false
         return picker
     }()
-
+    
     let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "Дата и время"
@@ -81,7 +82,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     let dateTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
@@ -97,21 +98,21 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         textField.isUserInteractionEnabled = false
         return textField
     }()
-
+    
     let commentsLabel: UILabel = {
         let label = UILabel()
         label.text = "Комментарии"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     let commentsTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-
+    
     let cancelButton: UIButton = {
         let button = UIButton()
         button.setTitle("Cancel", for: .normal)
@@ -119,7 +120,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     let submitButton: UIButton = {
         let button = UIButton()
         button.setTitle("Submit", for: .normal)
@@ -127,7 +128,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     let addButton: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
@@ -135,32 +136,49 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        submitButton.addTarget(self, action: #selector(submitButtonPressed), for: .touchUpInside)
-    }
-
-    func setupUI() {
-
-        dateButton.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
-       
-        // Установливаем экземпляр UIDatePicker в качестве inputView для dateTextField
-            dateTextField.inputView = datePicker
+        
+        if let expense = expenseToEdit {
+            // Заполняем поля ввода данными из expense
+            amountTextField.text = "\(expense.amount )"
+            if let categoryName = expense.category?.name {
+                if categoryImages[categoryName] != nil {
+                    if let categoryIndex = Array(categoryImages.keys).firstIndex(of: categoryName) {
+                        categoryPicker.selectRow(categoryIndex, inComponent: 0, animated: false)
+                    }
+                }
+            }
             
-            // Добавляем кнопку "Готово" на инструментальную панель UIDatePicker
-            let toolbar = UIToolbar()
-            toolbar.sizeToFit()
-            let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
-            toolbar.setItems([doneButton], animated: false)
-            dateTextField.inputAccessoryView = toolbar
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+            dateTextField.text = dateFormatter.string(from: expense.date)
+            
+            commentsTextField.text = expense.note
+        }
+    }
+    
+    func setupUI() {
+        submitButton.addTarget(self, action: #selector(submitButtonPressed), for: .touchUpInside)
+        dateButton.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
+        
+        // Установливаем экземпляр UIDatePicker в качестве inputView для dateTextField
+        dateTextField.inputView = datePicker
+        
+        // Добавляем кнопку "Готово" на инструментальную панель UIDatePicker
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+        toolbar.setItems([doneButton], animated: false)
+        dateTextField.inputAccessoryView = toolbar
         
         categoryPicker.delegate = self
         categoryPicker.dataSource = self
-//        addButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
+        //        addButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
         
-//        view.addSubview(dateLabel)
+        //        view.addSubview(dateLabel)
         view.addSubview(dateButton)
         view.addSubview(dateTextField)
         
@@ -191,7 +209,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             categoryLabel.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 16),
             categoryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
-
+        
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
             addButton.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor),
@@ -210,14 +228,14 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             dateLabel.topAnchor.constraint(equalTo: categoryPicker.bottomAnchor, constant: 16),
             dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
-
+        
         view.addSubview(dateTextField)
         NSLayoutConstraint.activate([
             dateTextField.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 8),
             dateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             dateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
-
+        
         view.addSubview(dateButton)
         NSLayoutConstraint.activate([
             dateButton.centerYAnchor.constraint(equalTo: dateTextField.centerYAnchor),
@@ -248,36 +266,36 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-
+    
     // MARK: - UIPickerViewDelegate and UIPickerViewDataSource
-
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
-
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { categoryImages.keys.count }
-
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let category = Array(categoryImages.keys)[row]
         return category
     }
-
+    
     // MARK: - Actions
-
-//    @objc func addCategory() {
-//        let alertController = UIAlertController(title: "Добавить категорию", message: nil, preferredStyle: .alert)
-//        alertController.addTextField { textField in
-//            textField.placeholder = "Название"
-//        }
-//        let addAction = UIAlertAction(title: "Добавить", style: .default) { _ in
-//            if let category = alertController.textFields?.first?.text {
-//                self.categoryImages.append(category)
-//                self.categoryPicker.reloadAllComponents()
-//            }
-//        }
-//        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
-//        alertController.addAction(addAction)
-//        alertController.addAction(cancelAction)
-//        present(alertController, animated: true, completion: nil)
-//    }
+    
+    //    @objc func addCategory() {
+    //        let alertController = UIAlertController(title: "Добавить категорию", message: nil, preferredStyle: .alert)
+    //        alertController.addTextField { textField in
+    //            textField.placeholder = "Название"
+    //        }
+    //        let addAction = UIAlertAction(title: "Добавить", style: .default) { _ in
+    //            if let category = alertController.textFields?.first?.text {
+    //                self.categoryImages.append(category)
+    //                self.categoryPicker.reloadAllComponents()
+    //            }
+    //        }
+    //        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+    //        alertController.addAction(addAction)
+    //        alertController.addAction(cancelAction)
+    //        present(alertController, animated: true, completion: nil)
+    //    }
     @objc func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
@@ -294,27 +312,57 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             view.transform = CGAffineTransform.identity
         }
     }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedCategory = Array(categoryImages.keys)[row]
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) { selectedCategory = Array(categoryImages.keys)[row] }
+    
+        @objc func submitButtonPressed() {
+            
+            // Получаем информацию из текстовых полей
+            guard let amountText = amountTextField.text,
+                  let amount = Double(amountText),
+                  let dateText = dateTextField.text,
+                  let comments = commentsTextField.text,
+                  let selectedCategory = selectedCategory else { return }
+            
+            let category = Category()
+            category.name = selectedCategory
+            category.imageName = categoryImages[selectedCategory]
+            
+            let storageManager = StorageManager.shared
+            
+            if let expenseToEdit = expenseToEdit {
+                // Обновление существующего объекта
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd.MM.yyyy"
+                storageManager.editExpenses(expenses: expenseToEdit, newName: amountText, newNote: comments, newCategory: category, newAmount: amount)
+                
+                // Вызываем замыкание и передаем информацию
+                onSubmit?(amountText, category, dateText, comments)
+                
+                // Закрываем модальное окно
+                dismiss(animated: true, completion: nil)
+                
+            } else {
+                // Создание нового объекта Expense
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd.MM.yyyy"
+                let newExpense = Expenses()
+                newExpense.amount = amount
+                newExpense.category = category
+                if let date = dateFormatter.date(from: dateText) { newExpense.date = date }
+                newExpense.note = comments
+            
+                storageManager.create(newExpense) // Добавляем новый объект в базу данных Realm
+                
+                // Вызываем замыкание и передаем информацию
+                onSubmit?(amountText, category, dateText, comments)
+                
+                // Закрываем модальное окно
+                dismiss(animated: true, completion: nil)
+            }
+        }
     }
-    @objc func submitButtonPressed() {
-        // Получаем информацию из текстовых полей
-        let amount = amountTextField.text ?? ""
-        let category = selectedCategory ?? ""
-        let date = dateTextField.text ?? ""
-        let comments = commentsTextField.text
-        
-        let newCategory = Category()
-        newCategory.name = category
-        newCategory.imageName = categoryImages[category]
-        
-        // Вызываем замыкание и передаем информацию
-        onSubmit?(amount, newCategory, date, comments)
 
-        // Закрываем модальное окно
-        dismiss(animated: true, completion: nil)
-      }
-}
 extension AddExpenseViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle { .none }
     }

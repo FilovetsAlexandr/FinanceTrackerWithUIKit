@@ -13,11 +13,11 @@
 		F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */; };
 		F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */; };
 		F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F82B03C109008DF5ED /* TabBarController.swift */; };
-		F447B4FF2B03FA51008DF5ED /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F447B4FE2B03FA51008DF5ED /* Lottie */; };
 		F447B5022B05204E008DF5ED /* pig.json in Resources */ = {isa = PBXBuildFile; fileRef = F447B5012B05204E008DF5ED /* pig.json */; };
 		F447B5052B057F03008DF5ED /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B5042B057F03008DF5ED /* UIColorExtension.swift */; };
 		F447B5092B077DE7008DF5ED /* ExpensesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B5082B077DE7008DF5ED /* ExpensesModel.swift */; };
 		F447B50C2B0AABB8008DF5ED /* AddExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B50B2B0AABB8008DF5ED /* AddExpenseViewController.swift */; };
+		F45754BC2B5F140F0056988B /* ExpensesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45754BB2B5F140F0056988B /* ExpensesVC.swift */; };
 		F47DFCE52AFE50D70073B538 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE42AFE50D70073B538 /* AppDelegate.swift */; };
 		F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47DFCE62AFE50D70073B538 /* SceneDelegate.swift */; };
 		F47DFCEE2AFE50DA0073B538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F47DFCED2AFE50DA0073B538 /* Assets.xcassets */; };
@@ -59,6 +59,7 @@
 		F447B5042B057F03008DF5ED /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		F447B5082B077DE7008DF5ED /* ExpensesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesModel.swift; sourceTree = "<group>"; };
 		F447B50B2B0AABB8008DF5ED /* AddExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
+		F45754BB2B5F140F0056988B /* ExpensesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesVC.swift; sourceTree = "<group>"; };
 		F47DFCE12AFE50D70073B538 /* FinanceTrackerWithUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinanceTrackerWithUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47DFCE42AFE50D70073B538 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F47DFCE62AFE50D70073B538 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F447B4FF2B03FA51008DF5ED /* Lottie in Frameworks */,
 				F4B09CD72AFEACDB004C1E07 /* RealmSwift in Frameworks */,
 				F4B09CD52AFEACDB004C1E07 /* Realm in Frameworks */,
 			);
@@ -122,6 +122,7 @@
 		F447B50A2B0AAB9B008DF5ED /* Expenses */ = {
 			isa = PBXGroup;
 			children = (
+				F45754BB2B5F140F0056988B /* ExpensesVC.swift */,
 				F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */,
 				F402F76B2B15FD6A00823872 /* ExpenseTableViewCell.swift */,
 				F447B50B2B0AABB8008DF5ED /* AddExpenseViewController.swift */,
@@ -205,7 +206,6 @@
 				F447B50A2B0AAB9B008DF5ED /* Expenses */,
 				F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */,
 				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
-				F447B4F82B03C109008DF5ED /* TabBarController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +213,7 @@
 		F47DFD172AFE51240073B538 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F447B4F82B03C109008DF5ED /* TabBarController.swift */,
 				F47DFCEF2AFE50DA0073B538 /* LaunchScreen.storyboard */,
 			);
 			path = Controllers;
@@ -254,7 +255,6 @@
 			packageProductDependencies = (
 				F4B09CD42AFEACDB004C1E07 /* Realm */,
 				F4B09CD62AFEACDB004C1E07 /* RealmSwift */,
-				F447B4FE2B03FA51008DF5ED /* Lottie */,
 			);
 			productName = FinanceTrackerWithUIKit;
 			productReference = F47DFCE12AFE50D70073B538 /* FinanceTrackerWithUIKit.app */;
@@ -330,7 +330,6 @@
 			mainGroup = F47DFCD82AFE50D70073B538;
 			packageReferences = (
 				F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */,
-				F447B4FD2B03FA51008DF5ED /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = F47DFCE22AFE50D70073B538 /* Products */;
 			projectDirPath = "";
@@ -382,6 +381,7 @@
 				F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */,
 				F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */,
 				F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */,
+				F45754BC2B5F140F0056988B /* ExpensesVC.swift in Sources */,
 				F4B09CD92AFF9FE8004C1E07 /* StorageManager.swift in Sources */,
 				F447B5052B057F03008DF5ED /* UIColorExtension.swift in Sources */,
 				F402F76A2B0B9BFE00823872 /* CategoryModel.swift in Sources */,
@@ -726,14 +726,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F447B4FD2B03FA51008DF5ED /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.3.3;
-			};
-		};
 		F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift";
@@ -745,11 +737,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F447B4FE2B03FA51008DF5ED /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F447B4FD2B03FA51008DF5ED /* XCRemoteSwiftPackageReference "lottie-spm" */;
-			productName = Lottie;
-		};
 		F4B09CD42AFEACDB004C1E07 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */;

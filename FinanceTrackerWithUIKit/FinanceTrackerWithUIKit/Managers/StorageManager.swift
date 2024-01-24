@@ -9,17 +9,14 @@ import Foundation
 import RealmSwift
 
 class StorageManager {
-     let realm: Realm
-    
-    private init() {
-        do {
-            realm = try Realm()
-        } catch {
-            fatalError("Failed to instantiate Realm: \(error)")
-        }
-    }
     
     static let shared = StorageManager()
+    private let realm = try! Realm()
+    
+    func searchExpenses(with searchText: String) -> Results<Expenses> {
+        let predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR category.name CONTAINS[cd] %@", searchText, searchText)
+        return realm.objects(Expenses.self).filter(predicate)
+    }
     
     func addCategory(name: String, imageName: String) {
         let category = Category()
@@ -55,15 +52,15 @@ class StorageManager {
         }
     }
     
-    func editExpenses(expenses: Expenses, newExpenseName: String) {
-        do {
-            try realm.write {
-                expenses.name = newExpenseName
-            }
-        } catch {
-            print("editExpenses error: \(error)")
-        }
-    }
+//    func editExpenses(expenses: Expenses, newExpenseName: String) {
+//        do {
+//            try realm.write {
+//                expenses.name = newExpenseName
+//            }
+//        } catch {
+//            print("editExpenses error: \(error)")
+//        }
+//    }
     
     func saveExpenses(expenses: Expenses) {
         do {
@@ -75,16 +72,24 @@ class StorageManager {
         }
     }
     
-    func editExpenses(expenses: Expenses, newName: String, newNote: String) {
+    func editExpenses(expenses: Expenses, newName: String, newNote: String, newCategory: Category, newAmount: Double) {
         do {
             try realm.write {
                 expenses.name = newName
                 expenses.note = newNote
+                expenses.category = newCategory
+                expenses.amount = newAmount
             }
         } catch {
             print("editExpenses error: \(error)")
         }
     }
+    
+    func updateExpense(expense: Expenses) {
+           try! realm.write {
+               realm.add(expense, update: .modified)
+           }
+       }
     
     func findRealmFile() {
         print("Realm is located at:", realm.configuration.fileURL!)
