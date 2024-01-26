@@ -9,12 +9,13 @@ import UIKit
 import RealmSwift
 
 class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    weak var expensesViewController: ExpensesViewController?
+    
     var onSubmit: ((String, Category, String, String?) -> Void)?
     var onExpenseAdded: (() -> Void)?
     var selectedCategory: String?
     var expenseToEdit: Expenses?
     let datePicker = UIDatePicker()
+    
     var categoryImages = [
         "Покупки": "shopping",
         "Еда": "food",

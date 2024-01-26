@@ -7,16 +7,16 @@
 
 import RealmSwift
 import UIKit
+import Lottie
 
 final class ExpensesViewController: UITableViewController {
 
     private var addExpenseVC: AddExpenseViewController?
-    private var editExpenseVC: AddExpenseViewController?
     private var filteredExpenses: [Expenses] = []
     private var expenseSections: [ExpenseSection] = []
     private var dateFormatter: DateFormatter!
     private var expenses: Results<Expenses>!
-//    private var notificationToken: NotificationToken?
+    private var animationView: LottieAnimationView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,27 +32,19 @@ final class ExpensesViewController: UITableViewController {
     
     // Редактирование расхода
     
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = UIContextualAction(style: .normal, title: "Изменить") { [weak self] (_, _, completion) in
             self?.editExpense(at: indexPath)
             completion(true)
-            self?.update()
         }
         editAction.backgroundColor = .gray
-        
-        let addExpenseViewController = AddExpenseViewController()
-        addExpenseViewController.expensesViewController = self
-        let navController = UINavigationController(rootViewController: addExpenseViewController)
-        
-        self.present(navController, animated: true, completion: nil)
-        
         return UISwipeActionsConfiguration(actions: [editAction])
     }
-    
+
     // Удаление расхода
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] (_, _, completion) in
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] (_, _, completion) in
             let expense = self?.expenseSections[indexPath.section].expenses[indexPath.row]
             
             let alert = UIAlertController(title: "Удаление", message: "Вы действительно хотите удалить?", preferredStyle: .alert)
@@ -70,6 +62,37 @@ final class ExpensesViewController: UITableViewController {
             
             self?.present(alert, animated: true, completion: nil)
         }
+        
+        deleteAction.backgroundColor = UIColor.red
+        
+        let swipeView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        swipeView.backgroundColor = .clear
+        
+        let animationView = LottieAnimationView(name: "trash2")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.frame = swipeView.bounds
+        animationView.play()
+        
+        swipeView.addSubview(animationView)
+        
+        // Создаем анимацию из анимационного view
+        let animation = LottieAnimation.named("trash2")
+        let animationViewNew = LottieAnimationView(animation: animation)
+        animationViewNew.frame = swipeView.bounds
+        animationViewNew.contentMode = .scaleAspectFit
+        animationViewNew.loopMode = .loop
+        animationViewNew.play()
+        
+        // Создаем snapshot из анимационного view
+        let snapshotView = UIView(frame: swipeView.bounds)
+        snapshotView.addSubview(animationViewNew)
+        let renderer = UIGraphicsImageRenderer(bounds: swipeView.bounds)
+        let snapshotImage = renderer.image { _ in
+            snapshotView.drawHierarchy(in: snapshotView.bounds, afterScreenUpdates: true)
+        }
+        
+        deleteAction.image = snapshotImage
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
@@ -112,6 +135,7 @@ final class ExpensesViewController: UITableViewController {
 
     
     // MARK: - Private methods
+    
     
     private func showAddExpenseViewController(with expense: Expenses) {
         let addExpenseViewController = AddExpenseViewController()
@@ -172,7 +196,6 @@ final class ExpensesViewController: UITableViewController {
         title = "Расходы"
         navigationController?.navigationBar.prefersLargeTitles = true
         definesPresentationContext = true
-        
         dateFormatter = DateFormatter()
     }
 
@@ -181,7 +204,6 @@ final class ExpensesViewController: UITableViewController {
         expenses = storageManager.getAllExpenses()
         filteredExpenses = Array(expenses)
         expenseSections = generateExpenseSections()
-        
     }
 
     private func setupTableView() {
@@ -197,10 +219,40 @@ final class ExpensesViewController: UITableViewController {
     }
 
     private func setupNavigationBar() {
-        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonSystemItemSelector))
-        navigationItem.setRightBarButton(add, animated: true)
-    }
+        animationView = LottieAnimationView(name: "refresh")
+        animationView.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        animationView.contentMode = .scaleAspectFit
 
+        let animationContainerView = UIView(frame: animationView.bounds)
+        animationContainerView.addSubview(animationView)
+
+        // Установите возможность взаимодействия для вашей картинки
+        animationContainerView.isUserInteractionEnabled = true
+        animationContainerView.translatesAutoresizingMaskIntoConstraints = true
+        
+        // Создайте жест нажатия
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(animationViewTapped))
+        
+        // Добавьте жест нажатия на вашу картинку
+        animationContainerView.addGestureRecognizer(tapGesture)
+
+        
+        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        customView.addSubview(animationContainerView)
+
+        let customBarButton = UIBarButtonItem(customView: customView)
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonSystemItemSelector))
+        addButton.tintColor = .black
+        navigationItem.rightBarButtonItems = [addButton, customBarButton]
+        
+    }
+    
+    @objc private func animationViewTapped() {
+        animationView.play()
+        update()
+    }
+    
     private func setupAddButton() {
         addExpenseVC = AddExpenseViewController()
         addExpenseVC?.onSubmit = { [weak self] amount, category, date, comments in
@@ -210,14 +262,9 @@ final class ExpensesViewController: UITableViewController {
             expense.category = category
             expense.date = self?.dateFormatter.date(from: date) ?? Date()
             expense.note = comments ?? ""
-            
             // Обновление отображения
             self?.update()
         }
-    }
-    private func setupEditButton() {
-        editExpenseVC = AddExpenseViewController()
-        editExpenseVC?.onSubmit = { [weak self] amount, category, date, comments in self?.update() }
     }
 }
 
