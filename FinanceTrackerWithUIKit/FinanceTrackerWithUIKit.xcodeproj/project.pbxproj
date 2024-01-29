@@ -10,6 +10,7 @@
 		F402F76A2B0B9BFE00823872 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402F7692B0B9BFE00823872 /* CategoryModel.swift */; };
 		F402F76C2B15FD6A00823872 /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402F76B2B15FD6A00823872 /* ExpenseTableViewCell.swift */; };
 		F402F76E2B15FF8600823872 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402F76D2B15FF8600823872 /* SectionHeaderView.swift */; };
+		F43C5F282B68047B00B26C85 /* ExpenseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C5F272B68047B00B26C85 /* ExpenseDetailViewController.swift */; };
 		F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */; };
 		F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */; };
 		F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F82B03C109008DF5ED /* TabBarController.swift */; };
@@ -55,6 +56,7 @@
 		F402F7692B0B9BFE00823872 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		F402F76B2B15FD6A00823872 /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		F402F76D2B15FF8600823872 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
+		F43C5F272B68047B00B26C85 /* ExpenseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewController.swift; sourceTree = "<group>"; };
 		F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
 		F447B4F82B03C109008DF5ED /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */,
+				F43C5F272B68047B00B26C85 /* ExpenseDetailViewController.swift */,
 				F402F76B2B15FD6A00823872 /* ExpenseTableViewCell.swift */,
 				F447B50B2B0AABB8008DF5ED /* AddExpenseViewController.swift */,
 			);
@@ -387,6 +390,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43C5F282B68047B00B26C85 /* ExpenseDetailViewController.swift in Sources */,
 				F402F76C2B15FD6A00823872 /* ExpenseTableViewCell.swift in Sources */,
 				F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */,
 				F402F76E2B15FF8600823872 /* SectionHeaderView.swift in Sources */,

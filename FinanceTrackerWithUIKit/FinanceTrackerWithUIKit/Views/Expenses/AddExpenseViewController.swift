@@ -32,7 +32,10 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         "Услуги": "ring",
         "Продукты": "sausage",
         "Алкоголь": "beer",
-        "Азартные игры": "casino"
+        "Азартные игры": "casino",
+        "Долг": "duty",
+        "Другое": "other",
+        "Подписки": "subscriptions"
     ]
     
     let titleLabel: UILabel = {
@@ -54,6 +57,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
@@ -141,7 +145,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
+        setupKeyboardDismissRecognizer()
         if let expense = expenseToEdit {
             // Заполняем поля ввода данными из expense
             amountTextField.text = "\(expense.amount )"
@@ -316,52 +320,59 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) { selectedCategory = Array(categoryImages.keys)[row] }
     
-        @objc func submitButtonPressed() {
+    @objc func submitButtonPressed() {
+        // Получаем информацию из текстовых полей
+        guard let amountText = amountTextField.text,
+              let amount = Double(amountText),
+              let dateText = dateTextField.text,
+              let comments = commentsTextField.text,
+              let selectedCategory = selectedCategory else { return }
+        
+        let category = Category()
+        category.name = selectedCategory
+        category.imageName = categoryImages[selectedCategory]
+        
+        let storageManager = StorageManager.shared
+        
+        if let expenseToEdit = expenseToEdit {
+            // Обновление существующего объекта
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
             
-            // Получаем информацию из текстовых полей
-            guard let amountText = amountTextField.text,
-                  let amount = Double(amountText),
-                  let dateText = dateTextField.text,
-                  let comments = commentsTextField.text,
-                  let selectedCategory = selectedCategory else { return }
-            
-            let category = Category()
-            category.name = selectedCategory
-            category.imageName = categoryImages[selectedCategory]
-            
-            let storageManager = StorageManager.shared
-            
-            if let expenseToEdit = expenseToEdit {
-                // Обновление существующего объекта
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd.MM.yyyy"
-                storageManager.editExpenses(expenses: expenseToEdit, newName: amountText, newNote: comments, newCategory: category, newAmount: amount)
-                
-                // Вызываем замыкание и передаем информацию
-                onSubmit?(amountText, category, dateText, comments)
-                
-                // Закрываем модальное окно
-                dismiss(animated: true, completion: nil)
-                
-            } else {
-                // Создание нового объекта Expense
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd.MM.yyyy"
-                let newExpense = Expenses()
-                newExpense.amount = amount
-                newExpense.category = category
-                if let date = dateFormatter.date(from: dateText) { newExpense.date = date }
-                newExpense.note = comments
-            
-                storageManager.create(newExpense) // Добавляем новый объект в базу данных Realm
-                
-                // Вызываем замыкание и передаем информацию
-                onSubmit?(amountText, category, dateText, comments)
-                
-                // Закрываем модальное окно
-                dismiss(animated: true, completion: nil)
+            if let date = dateFormatter.date(from: dateText) {
+                storageManager.editExpenses(expenses: expenseToEdit, newName: amountText, newNote: comments, newCategory: category, newAmount: amount, newDate: date)
             }
+            
+            // Вызываем замыкание и передаем информацию
+            onSubmit?(amountText, category, dateText, comments)
+            
+            // Закрываем модальное окно
+            dismiss(animated: true, completion: nil)
+            
+        } else {
+            // Создание нового объекта Expense
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+            
+            let newExpense = Expenses()
+            newExpense.amount = amount
+            newExpense.category = category
+            
+            if let date = dateFormatter.date(from: dateText) {
+                newExpense.date = date
+            }
+            
+            newExpense.note = comments
+
+            storageManager.create(newExpense) // Добавляем новый объект в базу данных Realm
+            
+            // Вызываем замыкание и передаем информацию
+            onSubmit?(amountText, category, dateText, comments)
+            
+            // Закрываем модальное окно
+            dismiss(animated: true, completion: nil)
         }
+    }
     }
 
 extension AddExpenseViewController: UIPopoverPresentationControllerDelegate {
@@ -424,4 +435,38 @@ extension AddExpenseViewController {
         formatter.dateFormat = "MMM d, yyyy HH:mm"
         dateTextField.text = formatter.string(from: sender.date)
     }
+}
+
+extension AddExpenseViewController {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) { view.endEditing(true) }
+}
+
+extension AddExpenseViewController {
+    
+    func setupKeyboardDismissRecognizer() {
+        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissKeyboard))
+        
+        view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc func keyboardWillShowWithNotification(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        
+        if commentsTextField.isFirstResponder {
+            view.frame.origin.y = -keyboardSize.height
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        view.frame.origin.y = 0
+    }
+    
 }

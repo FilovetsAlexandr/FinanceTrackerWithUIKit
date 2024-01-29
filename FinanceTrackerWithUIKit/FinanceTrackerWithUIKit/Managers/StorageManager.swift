@@ -52,16 +52,6 @@ class StorageManager {
         }
     }
     
-//    func editExpenses(expenses: Expenses, newExpenseName: String) {
-//        do {
-//            try realm.write {
-//                expenses.name = newExpenseName
-//            }
-//        } catch {
-//            print("editExpenses error: \(error)")
-//        }
-//    }
-    
     func saveExpenses(expenses: Expenses) {
         do {
             try realm.write {
@@ -72,13 +62,14 @@ class StorageManager {
         }
     }
     
-    func editExpenses(expenses: Expenses, newName: String, newNote: String, newCategory: Category, newAmount: Double) {
+    func editExpenses(expenses: Expenses, newName: String, newNote: String, newCategory: Category, newAmount: Double, newDate: Date) {
         do {
             try realm.write {
                 expenses.name = newName
                 expenses.note = newNote
                 expenses.category = newCategory
                 expenses.amount = newAmount
+                expenses.date = newDate
             }
         } catch {
             print("editExpenses error: \(error)")

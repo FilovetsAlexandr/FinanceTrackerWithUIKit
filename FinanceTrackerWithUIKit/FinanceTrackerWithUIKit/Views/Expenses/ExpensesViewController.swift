@@ -30,6 +30,14 @@ final class ExpensesViewController: UITableViewController {
 
     // MARK: - Table view data source
     
+    // Подробная информация
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let expense = expenseSections[indexPath.section].expenses[indexPath.row]
+        let detailVC = ExpenseDetailViewController(expense: expense)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
     // Редактирование расхода
     
         override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -44,7 +52,7 @@ final class ExpensesViewController: UITableViewController {
     // Удаление расхода
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] (_, _, completion) in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] (_, _, completion) in
             let expense = self?.expenseSections[indexPath.section].expenses[indexPath.row]
             
             let alert = UIAlertController(title: "Удаление", message: "Вы действительно хотите удалить?", preferredStyle: .alert)
@@ -62,38 +70,6 @@ final class ExpensesViewController: UITableViewController {
             
             self?.present(alert, animated: true, completion: nil)
         }
-        
-        deleteAction.backgroundColor = UIColor.red
-        
-        let swipeView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        swipeView.backgroundColor = .clear
-        
-        let animationView = LottieAnimationView(name: "trash2")
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .loop
-        animationView.frame = swipeView.bounds
-        animationView.play()
-        
-        swipeView.addSubview(animationView)
-        
-        // Создаем анимацию из анимационного view
-        let animation = LottieAnimation.named("trash2")
-        let animationViewNew = LottieAnimationView(animation: animation)
-        animationViewNew.frame = swipeView.bounds
-        animationViewNew.contentMode = .scaleAspectFit
-        animationViewNew.loopMode = .loop
-        animationViewNew.play()
-        
-        // Создаем snapshot из анимационного view
-        let snapshotView = UIView(frame: swipeView.bounds)
-        snapshotView.addSubview(animationViewNew)
-        let renderer = UIGraphicsImageRenderer(bounds: swipeView.bounds)
-        let snapshotImage = renderer.image { _ in
-            snapshotView.drawHierarchy(in: snapshotView.bounds, afterScreenUpdates: true)
-        }
-        
-        deleteAction.image = snapshotImage
-        
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
@@ -277,7 +253,7 @@ extension ExpensesViewController: UISearchResultsUpdating {
                 filteredExpenses = expenses.filter { expense in expense.category?.name.lowercased().contains(searchText.lowercased()) ?? false }
             }
             expenseSections = generateExpenseSections()
-            DispatchQueue.main.async { self.update() }
+            tableView.reloadData()
         }
     }
 }
