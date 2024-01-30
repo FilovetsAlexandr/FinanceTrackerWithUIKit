@@ -11,6 +11,8 @@
 		F402F76C2B15FD6A00823872 /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402F76B2B15FD6A00823872 /* ExpenseTableViewCell.swift */; };
 		F402F76E2B15FF8600823872 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402F76D2B15FF8600823872 /* SectionHeaderView.swift */; };
 		F43C5F282B68047B00B26C85 /* ExpenseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C5F272B68047B00B26C85 /* ExpenseDetailViewController.swift */; };
+		F43C5F302B68F88300B26C85 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = F43C5F2F2B68F88300B26C85 /* DGCharts */; };
+		F43C5F322B68F88300B26C85 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F43C5F312B68F88300B26C85 /* DGChartsDynamic */; };
 		F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */; };
 		F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */; };
 		F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F82B03C109008DF5ED /* TabBarController.swift */; };
@@ -87,8 +89,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43C5F302B68F88300B26C85 /* DGCharts in Frameworks */,
 				F4B09CD72AFEACDB004C1E07 /* RealmSwift in Frameworks */,
 				F4B09CD52AFEACDB004C1E07 /* Realm in Frameworks */,
+				F43C5F322B68F88300B26C85 /* DGChartsDynamic in Frameworks */,
 				F45754C82B6150CC0056988B /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,6 +271,8 @@
 				F4B09CD42AFEACDB004C1E07 /* Realm */,
 				F4B09CD62AFEACDB004C1E07 /* RealmSwift */,
 				F45754C72B6150CC0056988B /* Lottie */,
+				F43C5F2F2B68F88300B26C85 /* DGCharts */,
+				F43C5F312B68F88300B26C85 /* DGChartsDynamic */,
 			);
 			productName = FinanceTrackerWithUIKit;
 			productReference = F47DFCE12AFE50D70073B538 /* FinanceTrackerWithUIKit.app */;
@@ -343,6 +349,7 @@
 			packageReferences = (
 				F4B09CD12AFEAC3E004C1E07 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				F45754C62B6150CC0056988B /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				F43C5F2E2B68F65400B26C85 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = F47DFCE22AFE50D70073B538 /* Products */;
 			projectDirPath = "";
@@ -742,6 +749,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F43C5F2E2B68F65400B26C85 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		F45754C62B6150CC0056988B /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
@@ -761,6 +776,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F43C5F2F2B68F88300B26C85 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43C5F2E2B68F65400B26C85 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+		F43C5F312B68F88300B26C85 /* DGChartsDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43C5F2E2B68F65400B26C85 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGChartsDynamic;
+		};
 		F45754C72B6150CC0056988B /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F45754C62B6150CC0056988B /* XCRemoteSwiftPackageReference "lottie-spm" */;

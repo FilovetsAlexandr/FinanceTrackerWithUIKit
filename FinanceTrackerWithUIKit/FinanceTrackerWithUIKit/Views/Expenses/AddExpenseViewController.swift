@@ -120,7 +120,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     let cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle("Отмена", for: .normal)
         button.setTitleColor(.red, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -128,7 +128,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     let submitButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Submit", for: .normal)
+        button.setTitle("Готово", for: .normal)
         button.setTitleColor(.blue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -181,12 +181,6 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         categoryPicker.delegate = self
         categoryPicker.dataSource = self
-        //        addButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
-        
-        //        view.addSubview(dateLabel)
-        view.addSubview(dateButton)
-        view.addSubview(dateTextField)
-        
         
         view.backgroundColor = .white
         
@@ -228,9 +222,22 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             categoryPicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
         
+        view.addSubview(commentsLabel)
+        NSLayoutConstraint.activate([
+            commentsLabel.topAnchor.constraint(equalTo: categoryPicker.bottomAnchor, constant: 16),
+            commentsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
+        ])
+        
+        view.addSubview(commentsTextField)
+        NSLayoutConstraint.activate([
+            commentsTextField.topAnchor.constraint(equalTo: commentsLabel.bottomAnchor, constant: 8),
+            commentsTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            commentsTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+        
         view.addSubview(dateLabel)
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: categoryPicker.bottomAnchor, constant: 16),
+            dateLabel.topAnchor.constraint(equalTo: commentsTextField.bottomAnchor, constant: 16),
             dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
         
@@ -247,19 +254,6 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             dateButton.trailingAnchor.constraint(equalTo: dateTextField.trailingAnchor, constant: -8)
         ])
         
-        view.addSubview(commentsLabel)
-        NSLayoutConstraint.activate([
-            commentsLabel.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 16),
-            commentsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-        
-        view.addSubview(commentsTextField)
-        NSLayoutConstraint.activate([
-            commentsTextField.topAnchor.constraint(equalTo: commentsLabel.bottomAnchor, constant: 8),
-            commentsTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            commentsTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
-        
         let buttonStackView = UIStackView(arrangedSubviews: [cancelButton, submitButton])
         buttonStackView.axis = .horizontal
         buttonStackView.spacing = 16
@@ -267,9 +261,10 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         view.addSubview(buttonStackView)
         NSLayoutConstraint.activate([
-            buttonStackView.topAnchor.constraint(equalTo: commentsTextField.bottomAnchor, constant: 16),
+            buttonStackView.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 16),
             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    
     }
     
     // MARK: - UIPickerViewDelegate and UIPickerViewDataSource
