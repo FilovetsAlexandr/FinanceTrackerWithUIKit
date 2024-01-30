@@ -13,6 +13,7 @@ import Charts
 class ChartsViewController: UIViewController {
     
     var expenses = StorageManager.shared.getAllExpenses()
+    var pieChartView = PieChartView()
     
     lazy var infoLabel: UILabel = {
           let label = UILabel()
@@ -24,9 +25,14 @@ class ChartsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupPieChart()
         setupUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Запускаем анимацию графика
+        pieChartView.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
     }
 
     private func setupUI() {
@@ -36,7 +42,7 @@ class ChartsViewController: UIViewController {
     }
     
     func setupPieChart() {
-        let pieChartView = PieChartView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 200))
+        pieChartView = PieChartView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 200))
         // Анимируем отображение графика
         pieChartView.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
         // Добавьте infoLabel на вашу PieChartView
