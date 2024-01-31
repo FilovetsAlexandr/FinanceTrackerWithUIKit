@@ -5,98 +5,142 @@
 //  Created by Alexandr Filovets on 10.11.23.
 //
 
-//import Charts
-import RealmSwift
 import UIKit
+import RealmSwift
+import DGCharts
+import Charts
 
 class ChartsViewController: UIViewController {
-
-//    var pieChart = PieChartView()
-    var expenses: Results<Expenses>!
-    let realm = try! Realm()
+    
+    var expenses = StorageManager.shared.getAllExpenses()
+    var pieChartView = PieChartView()
+    
+    lazy var infoLabel: UILabel = {
+          let label = UILabel()
+          label.textAlignment = .center
+          label.numberOfLines = 0
+          label.font = UIFont.systemFont(ofSize: 14)
+          return label
+      }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupUI()
-//        setupPieChart()
-//        loadData()
-        
+        setupPieChart()
+        setupUI()
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        
-//        pieChart.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width)
-//        pieChart.center = view.center
-//    }
-//    
-//    private func setupUI() {
-//        title = "Статистика"
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        view.backgroundColor = .white
-//    }
-//    
-//    private func setupPieChart() {
-//        pieChart.delegate = self
-//             view.addSubview(pieChart)
-//             
-//             pieChart.entryLabelFont = UIFont.systemFont(ofSize: 12)
-//             pieChart.entryLabelColor = .black
-//             pieChart.drawEntryLabelsEnabled = true
-//             pieChart.legend.enabled = false
-//        
-//    }
-//    
-//    private func loadData() {
-//        expenses = realm.objects(Expenses.self)
-//        updateChartData()
-//    }
-//    
-//    func updateChartData() {
-//        let chartHeight = self.view.frame.height - (self.tabBarController?.tabBar.frame.height)!
-//        let chart = PieChartView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: chartHeight))
-//        
-//        var categoryExpenses: [String: Double] = [:]
-//        
-//        // Здесь мы используем вашу базу данных для получения категорий и сумм
-//        for expense in expenses {
-//            if let categoryName = expense.category?.name {
-//                if let currentAmount = categoryExpenses[categoryName] {
-//                    categoryExpenses[categoryName] = currentAmount + expense.amount
-//                    pieChart.notifyDataSetChanged()
-//                } else {
-//                    categoryExpenses[categoryName] = expense.amount
-//                    pieChart.notifyDataSetChanged()
-//                }
-//            }
-//        }
-//        
-//        var entries = [PieChartDataEntry]()
-//        var colors = [UIColor]()
-//        
-//        // Генерируем случайные цвета для графика
-//        for (category, amount) in categoryExpenses {
-//            let entry = PieChartDataEntry(value: amount, label: category)
-//            pieChart.notifyDataSetChanged()
-//            entries.append(entry)
-//            
-//            let red = Double(arc4random_uniform(256))
-//            let green = Double(arc4random_uniform(256))
-//            let blue = Double(arc4random_uniform(256))
-//            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
-//            colors.append(color)
-//        }
-//        
-//        let set = PieChartDataSet(entries: entries, label: "")
-//        set.colors = colors
-//        let data = PieChartData(dataSet: set)
-//        chart.data = data
-//        chart.noDataText = "No data available"
-//        chart.isUserInteractionEnabled = true
-//        
-//        self.view.addSubview(chart)
-//    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Запускаем анимацию графика
+        pieChartView.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+    }
+
+    private func setupUI() {
+        view.backgroundColor = .white
+        title = "Статистика"
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func setupPieChart() {
+        pieChartView = PieChartView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 200))
+        // Анимируем отображение графика
+        pieChartView.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+        // Добавьте infoLabel на вашу PieChartView
+           pieChartView.addSubview(infoLabel)
+           infoLabel.translatesAutoresizingMaskIntoConstraints = false
+           NSLayoutConstraint.activate([
+               infoLabel.centerXAnchor.constraint(equalTo: pieChartView.centerXAnchor),
+               infoLabel.centerYAnchor.constraint(equalTo: pieChartView.centerYAnchor)
+           ])
+        
+        var categoryExpenses: [String: Double] = [:]
+        
+        // Подсчитываем сумму расходов по категориям
+        for expense in expenses {
+            let categoryName = expense.category?.name ?? "No Category"
+            
+            if let currentAmount = categoryExpenses[categoryName] {
+                categoryExpenses[categoryName] = currentAmount + expense.amount
+            } else {
+                categoryExpenses[categoryName] = expense.amount
+            }
+        }
+        
+        // Создаем массив данных для PieChart графика
+        var dataEntries: [PieChartDataEntry] = []
+        for (categoryName, amount) in categoryExpenses {
+            let dataEntry = PieChartDataEntry(value: amount, label: categoryName)
+            dataEntries.append(dataEntry)
+        }
+        
+        // Создаем случайные цвета
+        var randomColors: [UIColor] = []
+        for _ in 0..<dataEntries.count {
+            let randomColor = UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1), alpha: 1)
+            randomColors.append(randomColor)
+        }
+        
+        // Создаем dataSet с уникальными цветами для всех записей данных
+        var dataSets: [PieChartDataSet] = []
+        let dataSet = PieChartDataSet(entries: dataEntries, label: "")
+        dataSet.drawValuesEnabled = false // Отключаем отображение значений на графике
+        for (index, _) in dataEntries.enumerated() {
+            let randomColor = randomColors[index % randomColors.count]
+            dataSet.colors.append(randomColor)
+        }
+        dataSets.append(dataSet)
+        
+        let data = PieChartData(dataSets: dataSets)
+        pieChartView.data = data
+        
+        // Добавляем обработчик нажатия на сегменты пирога
+        pieChartView.delegate = self
+        self.view.addSubview(pieChartView)
+    }
+    
 }
 
-//extension ChartsViewController: ChartViewDelegate {
-//}
+// Расширение для реализации ChartViewDelegate
+extension ChartsViewController: ChartViewDelegate {
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        guard let pieChartView = chartView as? PieChartView else { return }
+
+        let dataSetIndex = highlight.dataSetIndex // Индекс dataSet сегмента пирога
+        let dataSet = pieChartView.data?.dataSets[dataSetIndex]
+
+        if let entryIndex = dataSet?.entryIndex(entry: entry) {
+            let category = expenses[entryIndex].category?.name ?? "No Category"
+            print("Selected category: \(category)") // Проверка значения category
+               
+            let amount = entry.y
+            
+            // Вычисляем общую сумму расходов для всех категорий
+            let totalAmount = expenses.reduce(0) { $0 + $1.amount }
+
+            // Проверяем, если общая сумма равна нулю, устанавливаем процент в 0
+            let percentage: Double
+            if totalAmount == 0 {
+                percentage = 0
+            } else {
+                // Вычисляем процент как долю от общей суммы расходов
+                percentage = (amount / totalAmount) * 100
+            }
+
+            // Ограничиваем процент до 100
+            let clampedPercentage = min(percentage, 100)
+
+            // Форматируем процент, чтобы было только одно число после запятой
+            let formattedPercentage = String(format: "%.1f", clampedPercentage)
+
+            // Форматируем сумму, чтобы убрать десятичные нули
+            let formattedAmount = String(format: "%.0f", amount)
+
+            // Обновляем infoLabel с данными о выбранном сегменте пирога
+            infoLabel.text = """
+                Категория: \(category)
+                Расход: \(formattedAmount) BYN
+                Процент трат: \(formattedPercentage)%
+                """
+        }
+    }
+}

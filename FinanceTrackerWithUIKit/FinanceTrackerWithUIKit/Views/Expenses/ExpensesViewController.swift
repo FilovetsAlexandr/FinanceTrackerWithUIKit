@@ -7,16 +7,16 @@
 
 import RealmSwift
 import UIKit
+import Lottie
 
 final class ExpensesViewController: UITableViewController {
 
     private var addExpenseVC: AddExpenseViewController?
-    private var editExpenseVC: AddExpenseViewController?
     private var filteredExpenses: [Expenses] = []
     private var expenseSections: [ExpenseSection] = []
     private var dateFormatter: DateFormatter!
     private var expenses: Results<Expenses>!
-//    private var notificationToken: NotificationToken?
+    private var animationView: LottieAnimationView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,25 +30,25 @@ final class ExpensesViewController: UITableViewController {
 
     // MARK: - Table view data source
     
+    // Подробная информация
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let expense = expenseSections[indexPath.section].expenses[indexPath.row]
+        let detailVC = ExpenseDetailViewController(expense: expense)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
     // Редактирование расхода
     
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = UIContextualAction(style: .normal, title: "Изменить") { [weak self] (_, _, completion) in
             self?.editExpense(at: indexPath)
             completion(true)
-            self?.update()
         }
         editAction.backgroundColor = .gray
-        
-        let addExpenseViewController = AddExpenseViewController()
-        addExpenseViewController.expensesViewController = self
-        let navController = UINavigationController(rootViewController: addExpenseViewController)
-        
-        self.present(navController, animated: true, completion: nil)
-        
         return UISwipeActionsConfiguration(actions: [editAction])
     }
-    
+
     // Удаление расхода
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -70,7 +70,6 @@ final class ExpensesViewController: UITableViewController {
             
             self?.present(alert, animated: true, completion: nil)
         }
-        
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
@@ -112,6 +111,7 @@ final class ExpensesViewController: UITableViewController {
 
     
     // MARK: - Private methods
+    
     
     private func showAddExpenseViewController(with expense: Expenses) {
         let addExpenseViewController = AddExpenseViewController()
@@ -172,7 +172,6 @@ final class ExpensesViewController: UITableViewController {
         title = "Расходы"
         navigationController?.navigationBar.prefersLargeTitles = true
         definesPresentationContext = true
-        
         dateFormatter = DateFormatter()
     }
 
@@ -181,7 +180,6 @@ final class ExpensesViewController: UITableViewController {
         expenses = storageManager.getAllExpenses()
         filteredExpenses = Array(expenses)
         expenseSections = generateExpenseSections()
-        
     }
 
     private func setupTableView() {
@@ -197,10 +195,40 @@ final class ExpensesViewController: UITableViewController {
     }
 
     private func setupNavigationBar() {
-        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonSystemItemSelector))
-        navigationItem.setRightBarButton(add, animated: true)
-    }
+        animationView = LottieAnimationView(name: "refresh")
+        animationView.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        animationView.contentMode = .scaleAspectFit
 
+        let animationContainerView = UIView(frame: animationView.bounds)
+        animationContainerView.addSubview(animationView)
+
+        // Установите возможность взаимодействия для вашей картинки
+        animationContainerView.isUserInteractionEnabled = true
+        animationContainerView.translatesAutoresizingMaskIntoConstraints = true
+        
+        // Создайте жест нажатия
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(animationViewTapped))
+        
+        // Добавьте жест нажатия на вашу картинку
+        animationContainerView.addGestureRecognizer(tapGesture)
+
+        
+        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        customView.addSubview(animationContainerView)
+
+        let customBarButton = UIBarButtonItem(customView: customView)
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonSystemItemSelector))
+        addButton.tintColor = .black
+        navigationItem.rightBarButtonItems = [addButton, customBarButton]
+        
+    }
+    
+    @objc private func animationViewTapped() {
+        animationView.play()
+        update()
+    }
+    
     private func setupAddButton() {
         addExpenseVC = AddExpenseViewController()
         addExpenseVC?.onSubmit = { [weak self] amount, category, date, comments in
@@ -210,14 +238,9 @@ final class ExpensesViewController: UITableViewController {
             expense.category = category
             expense.date = self?.dateFormatter.date(from: date) ?? Date()
             expense.note = comments ?? ""
-            
             // Обновление отображения
             self?.update()
         }
-    }
-    private func setupEditButton() {
-        editExpenseVC = AddExpenseViewController()
-        editExpenseVC?.onSubmit = { [weak self] amount, category, date, comments in self?.update() }
     }
 }
 
@@ -230,7 +253,7 @@ extension ExpensesViewController: UISearchResultsUpdating {
                 filteredExpenses = expenses.filter { expense in expense.category?.name.lowercased().contains(searchText.lowercased()) ?? false }
             }
             expenseSections = generateExpenseSections()
-            DispatchQueue.main.async { self.update() }
+            tableView.reloadData()
         }
     }
 }

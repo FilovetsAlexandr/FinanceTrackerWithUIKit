@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 final class ExpenseTableViewCell: UITableViewCell {
     
