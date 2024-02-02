@@ -35,7 +35,8 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         "Азартные игры": "casino",
         "Долг": "duty",
         "Другое": "other",
-        "Подписки": "subscriptions"
+        "Подписки": "subscriptions",
+        "Такси": "taxi"
     ]
     
     let titleLabel: UILabel = {

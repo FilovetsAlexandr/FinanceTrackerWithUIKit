@@ -114,6 +114,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F43C5FA42B6A5E4F00B26C85 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
 		F447B5002B05202E008DF5ED /* Lottie-Animation */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,7 +228,7 @@
 			children = (
 				F447B50A2B0AAB9B008DF5ED /* Expenses */,
 				F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */,
-				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
+				F43C5FA42B6A5E4F00B26C85 /* Charts */,
 			);
 			path = Views;
 			sourceTree = "<group>";
