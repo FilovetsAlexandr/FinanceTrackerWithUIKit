@@ -1,14 +1,14 @@
 //
-//  ExpensesModel.swift
+//  IncomeModel.swift
 //  FinanceTrackerWithUIKit
 //
-//  Created by Alexandr Filovets on 17.11.23.
+//  Created by Alexandr Filovets on 5.02.24.
 //
 
 import Foundation
 import RealmSwift
 
-final class Expenses: Object {
+final class Incomes: Object {
     @Persisted var category: Category?
     @Persisted var name = ""
     @Persisted var note = ""
@@ -16,7 +16,7 @@ final class Expenses: Object {
     @Persisted var amount: Double = 0.0
 }
 
-struct ExpenseSection {
+struct IncomeSection {
     let date: Date
-    let expenses: [Expenses]
+    let incomes: [Incomes]
 }

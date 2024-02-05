@@ -8,31 +8,24 @@
 import Foundation
 import RealmSwift
 
-class StorageManager {
+final class StorageManager {
     
     static let shared = StorageManager()
     private let realm = try! Realm()
     
-    func searchExpenses(with searchText: String) -> Results<Expenses> {
-        let predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR category.name CONTAINS[cd] %@", searchText, searchText)
-        return realm.objects(Expenses.self).filter(predicate)
-    }
+    /// General Manager
     
-    func addCategory(name: String, imageName: String) {
+    private func findRealmFile() { print("Realm is located at:", realm.configuration.fileURL!) }
+    
+    private func addCategory(name: String, imageName: String) {
         let category = Category()
         category.name = name
         category.imageName = imageName
         
-        try! realm.write {
-            realm.add(category)
-        }
+        try! realm.write { realm.add(category) }
     }
     
-    func getAllExpenses() -> Results<Expenses> {
-        return realm.objects(Expenses.self)
-    }
-    
-    func deleteAll() {
+    private func deleteAll() {
         do {
             try realm.write {
                 realm.deleteAll()
@@ -42,15 +35,9 @@ class StorageManager {
         }
     }
     
-    func deleteExpenses(expenses: Expenses) {
-        do {
-            try realm.write {
-                realm.delete(expenses)
-            }
-        } catch {
-            print("deleteExpenses error: \(error)")
-        }
-    }
+    /// Storage Manager for Expense
+    
+    func getAllExpenses() -> Results<Expenses> { realm.objects(Expenses.self) }
     
     func saveExpenses(expenses: Expenses) {
         do {
@@ -76,16 +63,6 @@ class StorageManager {
         }
     }
     
-    func updateExpense(expense: Expenses) {
-           try! realm.write {
-               realm.add(expense, update: .modified)
-           }
-       }
-    
-    func findRealmFile() {
-        print("Realm is located at:", realm.configuration.fileURL!)
-    }
-    
     func deleteExpense(expense: Expenses) {
         do {
             try realm.write {
@@ -98,11 +75,85 @@ class StorageManager {
     
     func create<T: Object>(_ object: T) {
         do {
-            try realm.write {
-                realm.add(object)
-            }
+            try realm.write { realm.add(object) }
         } catch {
             print("create error: \(error)")
         }
     }
+    
+    private func searchExpenses(with searchText: String) -> Results<Expenses> {
+        let predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR category.name CONTAINS[cd] %@", searchText, searchText)
+        return realm.objects(Expenses.self).filter(predicate)
+    }
+    
+    private func deleteExpenses(expenses: Expenses) {
+        do {
+            try realm.write {
+                realm.delete(expenses)
+            }
+        } catch {
+            print("deleteExpenses error: \(error)")
+        }
+    }
+    
+    private func updateExpense(expense: Expenses) {
+        try! realm.write {
+            realm.add(expense, update: .modified)
+        }
+    }
+    
+    /// Storage Manager for Income
+    
+    func getAllIncomes() -> Results<Incomes> { realm.objects(Incomes.self) }
+    
+    func deleteIncome(income: Incomes) {
+        do {
+            try realm.write {
+                realm.delete(income)
+            }
+        } catch {
+            print("Error delete income: \(error)")
+        }
+    }
+    
+    func saveIncomes(incomes: Incomes) {
+        do {
+            try realm.write {
+                realm.add(incomes)
+            }
+        } catch {
+            print("Error saving incomes: \(error)")
+        }
+    }
+    
+    func editIncomes(incomes: Incomes, newName: String, newNote: String, newCategory: Category, newAmount: Double, newDate: Date) {
+        do {
+            try realm.write {
+                incomes.name = newName
+                incomes.note = newNote
+                incomes.category = newCategory
+                incomes.amount = newAmount
+                incomes.date = newDate
+            }
+        } catch {
+            print("Error editing incomes:\(error)")
+        }
+    }
+    
+    private func searchIncomes(with searchText: String) -> Results<Incomes> {
+        let predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR category.name CONTAINS[cd] %@", searchText, searchText)
+        return realm.objects(Incomes.self).filter(predicate)
+    }
+    
+    private func deleteIncomes(incomes: Incomes) {
+        do {
+            try realm.write {
+                realm.delete(incomes)
+            }
+        } catch {
+            print("Error deleting incomes: \(error)")
+        }
+    }
+    
+    private func updateIncome(income: Incomes) { try! realm.write { realm.add(income, update: .modified) } }
 }

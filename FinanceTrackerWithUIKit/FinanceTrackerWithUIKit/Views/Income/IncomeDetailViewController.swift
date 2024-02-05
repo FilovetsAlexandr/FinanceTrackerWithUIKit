@@ -1,15 +1,14 @@
 //
-//  ExpenseDetailViewController.swift
+//  IncomeDetailViewController.swift
 //  FinanceTrackerWithUIKit
 //
-//  Created by Alexandr Filovets on 29.01.24.
+//  Created by Alexandr Filovets on 5.02.24.
 //
 
 import UIKit
 
-final class ExpenseDetailViewController: UIViewController {
-
-    private let expense: Expenses
+final class IncomeDetailViewController: UIViewController {
+    private let income: Incomes
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -47,12 +46,15 @@ final class ExpenseDetailViewController: UIViewController {
         return label
     }()
 
-    init(expense: Expenses) {
-        self.expense = expense
+    init(income: Incomes) {
+        self.income = income
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,15 +107,15 @@ final class ExpenseDetailViewController: UIViewController {
     }
 
     private func populateData() {
-        imageView.image = UIImage(named: expense.category?.imageName ?? "")
-        nameLabel.text = expense.category?.name
-        noteLabel.text = expense.note
+        imageView.image = UIImage(named: income.category?.imageName ?? "")
+        nameLabel.text = income.category?.name
+        noteLabel.text = income.note
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM yyyy HH:MM"
-        dateLabel.text = dateFormatter.string(from: expense.date)
+        dateLabel.text = dateFormatter.string(from: income.date)
 
-        let amountString = expense.amount.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", expense.amount) : String(format: "%.2f", expense.amount)
+        let amountString = income.amount.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", income.amount) : String(format: "%.2f", income.amount)
         amountLabel.text = amountString + " BYN"
     }
 }

@@ -13,6 +13,8 @@
 		F43C5F282B68047B00B26C85 /* ExpenseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C5F272B68047B00B26C85 /* ExpenseDetailViewController.swift */; };
 		F43C5F302B68F88300B26C85 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = F43C5F2F2B68F88300B26C85 /* DGCharts */; };
 		F43C5F322B68F88300B26C85 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F43C5F312B68F88300B26C85 /* DGChartsDynamic */; };
+		F43C5FA72B70359900B26C85 /* IncomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C5FA62B70359900B26C85 /* IncomeModel.swift */; };
+		F43C5FA92B70421E00B26C85 /* IncomeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C5FA82B70421E00B26C85 /* IncomeDetailViewController.swift */; };
 		F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */; };
 		F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */; };
 		F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447B4F82B03C109008DF5ED /* TabBarController.swift */; };
@@ -34,6 +36,8 @@
 		F4B09CD52AFEACDB004C1E07 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CD42AFEACDB004C1E07 /* Realm */; };
 		F4B09CD72AFEACDB004C1E07 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F4B09CD62AFEACDB004C1E07 /* RealmSwift */; };
 		F4B09CD92AFF9FE8004C1E07 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B09CD82AFF9FE7004C1E07 /* StorageManager.swift */; };
+		F4BC8B732B711C1900C542DD /* IncomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BC8B722B711C1900C542DD /* IncomeTableViewCell.swift */; };
+		F4BC8B752B711C5600C542DD /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BC8B742B711C5600C542DD /* AddIncomeViewController.swift */; };
 		F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +63,8 @@
 		F402F76B2B15FD6A00823872 /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		F402F76D2B15FF8600823872 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		F43C5F272B68047B00B26C85 /* ExpenseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewController.swift; sourceTree = "<group>"; };
+		F43C5FA62B70359900B26C85 /* IncomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeModel.swift; sourceTree = "<group>"; };
+		F43C5FA82B70421E00B26C85 /* IncomeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeDetailViewController.swift; sourceTree = "<group>"; };
 		F447B4F32B03BCF1008DF5ED /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
 		F447B4F82B03C109008DF5ED /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -81,6 +87,8 @@
 		F47DFD052AFE50DA0073B538 /* FinanceTrackerWithUIKitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceTrackerWithUIKitUITests.swift; sourceTree = "<group>"; };
 		F47DFD072AFE50DA0073B538 /* FinanceTrackerWithUIKitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceTrackerWithUIKitUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F4B09CD82AFF9FE7004C1E07 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		F4BC8B722B711C1900C542DD /* IncomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeTableViewCell.swift; sourceTree = "<group>"; };
+		F4BC8B742B711C5600C542DD /* AddIncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
 		F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +128,17 @@
 				F4CBF1D62AFE73C300B461E7 /* ChartsViewController.swift */,
 			);
 			path = Charts;
+			sourceTree = "<group>";
+		};
+		F43C5FA52B70357400B26C85 /* Income */ = {
+			isa = PBXGroup;
+			children = (
+				F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */,
+				F43C5FA82B70421E00B26C85 /* IncomeDetailViewController.swift */,
+				F4BC8B722B711C1900C542DD /* IncomeTableViewCell.swift */,
+				F4BC8B742B711C5600C542DD /* AddIncomeViewController.swift */,
+			);
+			path = Income;
 			sourceTree = "<group>";
 		};
 		F447B5002B05202E008DF5ED /* Lottie-Animation */ = {
@@ -218,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				F447B5082B077DE7008DF5ED /* ExpensesModel.swift */,
+				F43C5FA62B70359900B26C85 /* IncomeModel.swift */,
 				F402F7692B0B9BFE00823872 /* CategoryModel.swift */,
 			);
 			path = Models;
@@ -227,7 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				F447B50A2B0AAB9B008DF5ED /* Expenses */,
-				F447B4F52B03BDB2008DF5ED /* IncomeViewController.swift */,
+				F43C5FA52B70357400B26C85 /* Income */,
 				F43C5FA42B6A5E4F00B26C85 /* Charts */,
 			);
 			path = Views;
@@ -405,18 +425,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43C5FA92B70421E00B26C85 /* IncomeDetailViewController.swift in Sources */,
 				F43C5F282B68047B00B26C85 /* ExpenseDetailViewController.swift in Sources */,
 				F402F76C2B15FD6A00823872 /* ExpenseTableViewCell.swift in Sources */,
 				F447B4F92B03C109008DF5ED /* TabBarController.swift in Sources */,
 				F402F76E2B15FF8600823872 /* SectionHeaderView.swift in Sources */,
 				F47DFCE52AFE50D70073B538 /* AppDelegate.swift in Sources */,
 				F447B4F42B03BCF1008DF5ED /* ExpensesViewController.swift in Sources */,
+				F43C5FA72B70359900B26C85 /* IncomeModel.swift in Sources */,
 				F4CBF1D72AFE73C300B461E7 /* ChartsViewController.swift in Sources */,
 				F447B4F62B03BDB2008DF5ED /* IncomeViewController.swift in Sources */,
 				F4B09CD92AFF9FE8004C1E07 /* StorageManager.swift in Sources */,
 				F447B5052B057F03008DF5ED /* UIColorExtension.swift in Sources */,
 				F402F76A2B0B9BFE00823872 /* CategoryModel.swift in Sources */,
 				F447B5092B077DE7008DF5ED /* ExpensesModel.swift in Sources */,
+				F4BC8B732B711C1900C542DD /* IncomeTableViewCell.swift in Sources */,
+				F4BC8B752B711C5600C542DD /* AddIncomeViewController.swift in Sources */,
 				F447B50C2B0AABB8008DF5ED /* AddExpenseViewController.swift in Sources */,
 				F47DFCE72AFE50D70073B538 /* SceneDelegate.swift in Sources */,
 			);

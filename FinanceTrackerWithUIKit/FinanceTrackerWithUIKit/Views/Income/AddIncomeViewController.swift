@@ -1,19 +1,19 @@
 //
-//  AlertForExpensesVC.swift
+//  AddIncomeViewController.swift
 //  FinanceTrackerWithUIKit
 //
-//  Created by Alexandr Filovets on 19.11.23.
+//  Created by Alexandr Filovets on 5.02.24.
 //
 
 import RealmSwift
 import UIKit
 
-final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+final class AddIncomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var onSubmit: ((String, Category, String, String?) -> Void)?
-    var onExpenseAdded: (() -> Void)?
-    var expenseToEdit: Expenses?
-    
+    var onIncomeAdded: (() -> Void)?
+    var incomeToEdit: Incomes?
+  
     private let datePicker = UIDatePicker()
     private var selectedCategory: String?
     private var categoryImages = [
@@ -41,7 +41,7 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Добавить расход"
+        label.text = "Добавить доход"
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -75,7 +75,7 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
         return picker
     }()
     
-    private  let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "Дата и время"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -134,7 +134,7 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -143,20 +143,22 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
     }
     
     private func autocompleteField() {
-        if let expense = expenseToEdit {
-            // Заполняем поля ввода данными из expense
-            amountTextField.text = "\(expense.amount)"
-            if let categoryName = expense.category?.name {
+        if let income = incomeToEdit {
+            // Заполняем поля ввода данными из income
+            amountTextField.text = "\(income.amount)"
+            if let categoryName = income.category?.name {
                 if categoryImages[categoryName] != nil {
                     if let categoryIndex = Array(categoryImages.keys).firstIndex(of: categoryName) {
                         categoryPicker.selectRow(categoryIndex, inComponent: 0, animated: false)
                     }
                 }
             }
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
-            dateTextField.text = dateFormatter.string(from: expense.date)
-            commentsTextField.text = expense.note
+            dateTextField.text = dateFormatter.string(from: income.date)
+            
+            commentsTextField.text = income.note
         }
     }
     
@@ -263,13 +265,14 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) { selectedCategory = Array(categoryImages.keys)[row] }
     
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let category = Array(categoryImages.keys)[row]
         return category
     }
     
     // MARK: - Actions
-    
+
     @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
@@ -286,7 +289,7 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
             view.transform = CGAffineTransform.identity
         }
     }
-    
+
     @objc private func submitButtonPressed() {
         // Получаем информацию из текстовых полей
         guard let amountText = amountTextField.text,
@@ -301,12 +304,14 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
         
         let storageManager = StorageManager.shared
         
-        if let expenseToEdit = expenseToEdit {
+        if let incomeToEdit = incomeToEdit {
             // Обновление существующего объекта
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
             
-            if let date = dateFormatter.date(from: dateText) { storageManager.editExpenses(expenses: expenseToEdit, newName: amountText, newNote: comments, newCategory: category, newAmount: amount, newDate: date) }
+            if let date = dateFormatter.date(from: dateText) {
+                storageManager.editIncomes(incomes: incomeToEdit, newName: amountText, newNote: comments, newCategory: category, newAmount: amount, newDate: date)
+            }
             
             // Вызываем замыкание и передаем информацию
             onSubmit?(amountText, category, dateText, comments)
@@ -319,17 +324,15 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
             
-            let newExpense = Expenses()
-            newExpense.amount = amount
-            newExpense.category = category
+            let newIncome = Incomes()
+            newIncome.amount = amount
+            newIncome.category = category
             
-            if let date = dateFormatter.date(from: dateText) {
-                newExpense.date = date
-            }
+            if let date = dateFormatter.date(from: dateText) { newIncome.date = date }
             
-            newExpense.note = comments
+            newIncome.note = comments
 
-            storageManager.create(newExpense) // Добавляем новый объект в базу данных Realm
+            storageManager.create(newIncome) // Добавляем новый объект в базу данных Realm
             
             // Вызываем замыкание и передаем информацию
             onSubmit?(amountText, category, dateText, comments)
@@ -340,11 +343,11 @@ final class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UI
     }
 }
 
-extension AddExpenseViewController: UIPopoverPresentationControllerDelegate {
+extension AddIncomeViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle { .none }
 }
 
-extension AddExpenseViewController: UITextFieldDelegate {
+extension AddIncomeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let allowedCharacters = CharacterSet.decimalDigits
         let characterSet = CharacterSet(charactersIn: string)
@@ -352,7 +355,7 @@ extension AddExpenseViewController: UITextFieldDelegate {
     }
 }
 
-extension AddExpenseViewController {
+extension AddIncomeViewController {
     @objc func showDatePicker() {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .dateAndTime
@@ -400,14 +403,11 @@ extension AddExpenseViewController {
     }
 }
 
-/// Скрытие клавиатуры при нажатии на пустое место
-
-extension AddExpenseViewController {
+extension AddIncomeViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) { view.endEditing(true) }
 }
 
-extension AddExpenseViewController {
-    
+extension AddIncomeViewController {
     func setupKeyboardDismissRecognizer() {
         let tapRecognizer = UITapGestureRecognizer(
             target: self,
