@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class Category: Object {
+final class Category: Object {
     @Persisted var name = ""
     @Persisted var imageName : String?
 }
