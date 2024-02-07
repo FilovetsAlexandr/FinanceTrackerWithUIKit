@@ -16,27 +16,16 @@ final class AddIncomeViewController: UIViewController, UIPickerViewDelegate, UIP
   
     private let datePicker = UIDatePicker()
     private var selectedCategory: String?
-    private var categoryImages = [
-        "Покупки": "shopping",
-        "Еда": "food",
-        "Развлечения": "entertainment",
-        "Подарки": "present",
-        "Связь и интернет": "communication",
-        "Путешествия": "travels",
-        "Автомобиль": "car",
-        "Дом": "house",
-        "Здоровье": "health",
-        "Хобби": "hobby",
-        "Одежда": "clothes",
-        "Техника": "drill",
-        "Услуги": "ring",
-        "Продукты": "sausage",
-        "Алкоголь": "beer",
-        "Азартные игры": "casino",
-        "Долг": "duty",
-        "Другое": "other",
-        "Подписки": "subscriptions",
-        "Такси": "taxi"
+    private var categoryImagesIncome = [
+        "Зарплата": "salary",
+        "Аванс": "advance",
+        "Долги": "debt",
+        "Лотерея": "lottery",
+        "Инвестиции": "investments",
+        "Криптовалюта": "crypto",
+        "Кешбек": "cashback",
+        "Бизнес": "business",
+        "Депозит": "deposit"
     ]
     
     private let titleLabel: UILabel = {
@@ -147,8 +136,8 @@ final class AddIncomeViewController: UIViewController, UIPickerViewDelegate, UIP
             // Заполняем поля ввода данными из income
             amountTextField.text = "\(income.amount)"
             if let categoryName = income.category?.name {
-                if categoryImages[categoryName] != nil {
-                    if let categoryIndex = Array(categoryImages.keys).firstIndex(of: categoryName) {
+                if categoryImagesIncome[categoryName] != nil {
+                    if let categoryIndex = Array(categoryImagesIncome.keys).firstIndex(of: categoryName) {
                         categoryPicker.selectRow(categoryIndex, inComponent: 0, animated: false)
                     }
                 }
@@ -261,13 +250,13 @@ final class AddIncomeViewController: UIViewController, UIPickerViewDelegate, UIP
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { categoryImages.keys.count }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { categoryImagesIncome.keys.count }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) { selectedCategory = Array(categoryImages.keys)[row] }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) { selectedCategory = Array(categoryImagesIncome.keys)[row] }
     
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let category = Array(categoryImages.keys)[row]
+        let category = Array(categoryImagesIncome.keys)[row]
         return category
     }
     
@@ -300,7 +289,7 @@ final class AddIncomeViewController: UIViewController, UIPickerViewDelegate, UIP
         
         let category = Category()
         category.name = selectedCategory
-        category.imageName = categoryImages[selectedCategory]
+        category.imageName = categoryImagesIncome[selectedCategory]
         
         let storageManager = StorageManager.shared
         
